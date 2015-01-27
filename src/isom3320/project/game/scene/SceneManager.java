@@ -24,6 +24,7 @@ public class SceneManager {
 		scenes = new ArrayList<Scene>();
 		currentLevel = MENU;
 		scenes.add(new MenuScene());
+		scenes.add(new Level1());
 	}
 	
 	public void changeSceneLevel(int sceneLevel) {

@@ -1,5 +1,6 @@
 package isom3320.project.game;
 
+import isom3320.project.game.multimedia.MultimeidaHelper;
 import isom3320.project.game.scene.SceneManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -11,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,6 +27,7 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 	private GameWindow gameWindow;
 	private Timeline gameTimeLine;
 	private SceneManager sceneManager;
+	private MediaPlayer mediaPlayer;
 	
 	@Override
 	public void init() throws Exception {
@@ -33,7 +36,9 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		
 		gameWindow = new GameWindow(WIDTH, HEIGHT);
 		sceneManager = SceneManager.getIntance();
-
+		
+		mediaPlayer = new MediaPlayer(MultimeidaHelper.getMusicByName("bg.mp3"));
+		
 		Duration secondPerFrame = Duration.millis(1000 / (float) FPS);
 		KeyFrame keyFrame = new KeyFrame(secondPerFrame, new EventHandler<ActionEvent>() {
 			@Override
@@ -58,15 +63,17 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		stage.setScene(scene);
 		
 		scene.setOnKeyPressed(this);
+		scene.setOnKeyReleased(this);
 		
 		gameTimeLine.play();
-		
+		mediaPlayer.play();
 		stage.setResizable(false);
 		stage.show();
+		
 	}
 
 	@Override
-	public void stop() throws Exception {
+	public synchronized void stop() throws Exception {
 		// TODO Auto-generated method stub
 		super.stop();
 	}

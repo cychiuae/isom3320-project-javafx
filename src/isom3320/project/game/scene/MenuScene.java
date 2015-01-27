@@ -1,6 +1,7 @@
 package isom3320.project.game.scene;
 
 import isom3320.project.game.Game;
+import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -17,7 +18,6 @@ public class MenuScene extends Scene {
 	
 	private String[] options;
 	private int currentOption;
-	
 	public MenuScene() {
 		background = new Background("menubg.gif", 1);
 		background.setVector(-0.1, 0);
@@ -42,7 +42,7 @@ public class MenuScene extends Scene {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
@@ -94,6 +94,9 @@ public class MenuScene extends Scene {
 		if(keyCode == KeyCode.ENTER) {
 			if(currentOption == options.length - 1) {
 				System.exit(0);
+			}
+			if(currentOption == 0) {
+				SceneManager.getIntance().changeSceneLevel(SceneManager.LEVEL1);
 			}
 		}
 	}
