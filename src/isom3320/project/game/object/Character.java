@@ -25,4 +25,8 @@ public abstract class Character extends GameObject {
 	public boolean isDead() {
 		return isDead;
 	}
+	
+	public boolean facingRight() {
+		return facingRight;
+	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 public class Player extends Character {
 	private static final int IDLE = 0;
@@ -70,19 +71,7 @@ public class Player extends Character {
 		animation.setFrames(sprites.get(IDLE));
 		animation.setDelay(400);
 	}
-	boolean tl, tr, bl, br;
-	public void calCon(double x, double y) {
-		int lt = (int) ((x - width / 2) / tileSize);
-		int rt = (int) ((x + width / 2 - 1) / tileSize);
-		int tt = (int) ((y - height / 2) / tileSize);
-		int bt = (int) ((y + height / 2 - 1) / tileSize);
-		
-		tl = map.getTileType(tt, lt) == Tile.BLOCKTILE;
-		tr = map.getTileType(tt, rt) == Tile.BLOCKTILE;
-		bl = map.getTileType(bt, lt) == Tile.BLOCKTILE;
-		br = map.getTileType(bt, rt) == Tile.BLOCKTILE;
-	}
-	
+
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
@@ -90,13 +79,6 @@ public class Player extends Character {
 		if(left || right) {
 			facingRight = right;
 			dx = right ? 1.6 : -1.6;
-			
-			if(currentAction != WALKING) {
-				currentAction = WALKING;
-				animation.setFrames(sprites.get(WALKING));
-				animation.setDelay(100);
-				width = 60;
-			}
 		}
 		else if(dx > 0 || dx < 0) {	
 			dx = 0;
@@ -141,8 +123,7 @@ public class Player extends Character {
 		double nextY = yPosition + dy;
 		
 		if(dx > 0) {
-			if(map.getTileType((int) ((yPosition - height / 2) / tileSize), (int) ((nextX + width / 2 - 1) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((yPosition + height / 2 - 1) / tileSize), (int) ((nextX + width / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType(currentRow, (int)((xPosition + 30) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -152,9 +133,7 @@ public class Player extends Character {
 			}
 		}
 		else if(dx < 0) {
-			if(map.getTileType((int) ((yPosition - height / 2) / tileSize), (int) ((nextX - width / 2) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((yPosition + height / 2 - 1) / tileSize), (int) ((nextX - width / 2) / tileSize)) == Tile.BLOCKTILE) 
-			{
+			if(map.getTileType(currentRow, (int)((xPosition - 30) / tileSize)) == Tile.BLOCKTILE) {
 				dx = 0;
 				nextX = xPosition;
 			}
@@ -164,23 +143,23 @@ public class Player extends Character {
 		}
 		
 		if(dy > 0) {
-			if(map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition - width / 2) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition + width / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE || 
+			   map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition + (width - 15) / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
 				falling = false;
-				nextY = (currentRow + 1) * tileSize - height / 2;
+				nextY = yPosition;
 			}
 			else {
 				nextY += dy;
 			}
 		}
 		else if(dy < 0) {
-			if(map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition - width / 2) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + width / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE || 
+			   map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + (width - 15) / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
-				nextY = currentRow * tileSize + height / 2;
+				nextY = yPosition;
 			}
 			else {
 				nextY += dy;
@@ -188,14 +167,67 @@ public class Player extends Character {
 		}
 		
 		if(!falling) {
-			if(!(map.getTileType((int) ((nextY + 1 + height / 2 - 1) / tileSize), (int) ((xPosition - width / 2) / tileSize)) == Tile.BLOCKTILE) || 
-			   !(map.getTileType((int) ((nextY + 1 + height / 2 - 1) / tileSize), (int) ((xPosition + width / 2 - 1) / tileSize)) == Tile.BLOCKTILE)) {
+			if(!(map.getTileType(currentRow + 1, (int) ((xPosition + (width - 15) / 2 - 1) / tileSize) ) == Tile.BLOCKTILE) && !(map.getTileType(currentRow + 1, (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE)) {
 				falling = true;
 			}
 		}
 		
-		if(left || right) {
-			
+		if(firing) {
+			if(animation.playedOnce()) {
+				firing = false;
+			}
+		}
+		
+		xPosition = nextX;
+		yPosition = nextY;
+		
+		updateAnimation();
+		animation.update();
+	}
+
+	private void updateAnimation() {
+		
+		if(dy > 0) {
+			if(flying) {
+				if(currentAction != FLYING) {
+					currentAction = FLYING;
+					animation.setFrames(sprites.get(FLYING));
+					animation.setDelay(100);
+					width = 60;
+				}
+			}
+			else {
+				if(currentAction != FALLING) {
+					currentAction = FALLING;
+					animation.setFrames(sprites.get(FALLING));
+					animation.setDelay(100);
+					width = 60;
+				}
+			}
+		}
+		else if(dy < 0) {
+			if(currentAction != JUMPING) {
+				currentAction = JUMPING;
+				animation.setFrames(sprites.get(JUMPING));
+				animation.setDelay(30);
+				width = 60;
+			}
+		}
+		else if(firing) {
+			if(currentAction != FIRING) {
+				currentAction = FIRING;
+				animation.setFrames(sprites.get(FIRING));
+				animation.setDelay(100);
+				width = 60;
+			}
+		}
+		else if(left || right) {
+			if(currentAction != WALKING) {
+				currentAction = WALKING;
+				animation.setFrames(sprites.get(WALKING));
+				animation.setDelay(100);
+				width = 60;
+			}
 		}
 		else {
 			if(currentAction != IDLE) {
@@ -205,13 +237,8 @@ public class Player extends Character {
 				width = 60;
 			}
 		}
-		
-		xPosition = nextX;
-		yPosition = nextY;
-		System.out.println(nextX);
-		animation.update();
 	}
-
+	
 	@Override
 	public void render(GraphicsContext gc) {
 		// TODO Auto-generated method stub
@@ -236,6 +263,12 @@ public class Player extends Character {
 		if(keyCode == KeyCode.UP) {
 			jumping = true;
 		}
+		if(keyCode == KeyCode.SPACE) {
+			flying = true;
+		}
+		if(keyCode == KeyCode.F) {
+			firing = true;
+		}
 	}
 
 	@Override
@@ -246,6 +279,9 @@ public class Player extends Character {
 		}
 		if(keyCode == KeyCode.LEFT) {
 			left = false;
+		}
+		if(keyCode == KeyCode.SPACE) {
+			flying = false;
 		}
 	}
 

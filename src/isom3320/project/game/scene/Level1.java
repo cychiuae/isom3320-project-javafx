@@ -1,8 +1,11 @@
 package isom3320.project.game.scene;
 
+import java.util.ArrayList;
+
 import isom3320.project.game.Game;
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
+import isom3320.project.game.object.FireBall;
 import isom3320.project.game.object.Player;
 import isom3320.project.game.scoresystem.Score;
 import isom3320.project.game.scoresystem.ScoreSystem;
@@ -26,6 +29,7 @@ public class Level1 extends Scene {
 	private boolean stop;
 	
 	private Player player;
+	private ArrayList<FireBall> fireBalls;
 
 	public Level1() {
 		inited = false;
@@ -46,6 +50,8 @@ public class Level1 extends Scene {
 		
 		player = new Player(map);
 		player.setPosition(100, 100);
+		
+		fireBalls = new ArrayList<FireBall>();
 
 		currentOption = 0;
 		options = new String[] {
@@ -66,6 +72,10 @@ public class Level1 extends Scene {
 		// TODO Auto-generated method stub
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
 		player.update();
+		
+		for(int i = 0; i < fireBalls.size(); i++) {
+			fireBalls.get(i).update();
+		}
 	}
 
 	@Override
@@ -74,12 +84,35 @@ public class Level1 extends Scene {
 		background.render(gc);
 		map.render(gc);
 		player.render(gc);
+		
+		for(int i = 0; i < fireBalls.size(); i++) {
+			FireBall fb = fireBalls.get(i);
+			if(fb.shoudBeRemove()) {
+				fireBalls.remove(i);
+				i--;
+			}
+			else {
+				fb.render(gc);
+			}
+		
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
 		player.keyPressed(keyCode);
+		if(keyCode == KeyCode.F) {
+			FireBall fb = new FireBall(map, player.facingRight());
+			if(player.facingRight()) {
+				fb.setPosition(player.getXPosition() + 30, player.getYPosition());
+			}
+			else {
+				fb.setPosition(player.getXPosition(), player.getYPosition());
+			}
+			
+			fireBalls.add(fb);
+		}
 		
 	}
 
