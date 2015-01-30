@@ -20,11 +20,11 @@ public class Player extends Character {
 	private static final int FIRING = 5;
 	private static final int ATTACKING = 6;
 	
+	private ArrayList<FireBall> balls;
 	private int numOfFire;
 	private int maxFire;
-	
 	private boolean firing;
-
+	
 	private boolean attack;
 	private int attackDamage;
 	private int attackRange;
@@ -43,6 +43,8 @@ public class Player extends Character {
 		facingRight = true;
 		
 		hp = maxHp = 10;
+		
+		balls = new ArrayList<FireBall>();
 		numOfFire = maxFire = 5;
 		
 		attackDamage = 5;
@@ -171,23 +173,54 @@ public class Player extends Character {
 				falling = true;
 			}
 		}
+		  
+		if(firing && currentAction != FIRING) {
+			if(numOfFire > 0) {
+				numOfFire--;
+				FireBall fb = new FireBall(map, facingRight);
+				if(facingRight) {
+					fb.setPosition(xPosition + 30, yPosition);
+				}
+				else {
+					fb.setPosition(xPosition, yPosition);
+				}
+				balls.add(fb);
+			}
+		}
 		
-		if(firing) {
-			if(animation.playedOnce()) {
-				firing = false;
+		for(int i = 0; i < balls.size(); i++) {
+			FireBall fb = balls.get(i);
+			if(fb.shoudBeRemove()) {
+				balls.remove(i);
+				i--;
+			}
+			else {
+				fb.update();
 			}
 		}
 		
 		xPosition = nextX;
 		yPosition = nextY;
 		
-		updateAnimation();
+		updateAction();
 		animation.update();
 	}
 
-	private void updateAnimation() {
+	private void updateAction() {
 		
-		if(dy > 0) {
+		
+		if(firing) {
+			if(currentAction != FIRING) {
+				currentAction = FIRING;
+				animation.setFrames(sprites.get(FIRING));
+				animation.setDelay(100);
+				width = 60;
+			}
+			if(animation.playedOnce()) {
+				firing = false;
+			}
+		}
+		else if(dy > 0) {
 			if(flying) {
 				if(currentAction != FLYING) {
 					currentAction = FLYING;
@@ -210,14 +243,6 @@ public class Player extends Character {
 				currentAction = JUMPING;
 				animation.setFrames(sprites.get(JUMPING));
 				animation.setDelay(30);
-				width = 60;
-			}
-		}
-		else if(firing) {
-			if(currentAction != FIRING) {
-				currentAction = FIRING;
-				animation.setFrames(sprites.get(FIRING));
-				animation.setDelay(100);
 				width = 60;
 			}
 		}
@@ -248,6 +273,12 @@ public class Player extends Character {
 		else {
 			gc.drawImage(animation.getImage(), xPosition + map.getX() + width / 2 , yPosition - height / 2, -width, height);
 		}
+		
+		for(int i = 0; i < balls.size(); i++) {
+			balls.get(i).render(gc);
+		}
+		
+		gc.fillText("FireBall: " + numOfFire + "/" + maxFire, 10, 10);
 		
 	}
 

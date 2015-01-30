@@ -84,36 +84,12 @@ public class Level1 extends Scene {
 		background.render(gc);
 		map.render(gc);
 		player.render(gc);
-		
-		for(int i = 0; i < fireBalls.size(); i++) {
-			FireBall fb = fireBalls.get(i);
-			if(fb.shoudBeRemove()) {
-				fireBalls.remove(i);
-				i--;
-			}
-			else {
-				fb.render(gc);
-			}
-		
-		}
 	}
 
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
 		player.keyPressed(keyCode);
-		if(keyCode == KeyCode.F) {
-			FireBall fb = new FireBall(map, player.facingRight());
-			if(player.facingRight()) {
-				fb.setPosition(player.getXPosition() + 30, player.getYPosition());
-			}
-			else {
-				fb.setPosition(player.getXPosition(), player.getYPosition());
-			}
-			
-			fireBalls.add(fb);
-		}
-		
 	}
 
 	@Override
