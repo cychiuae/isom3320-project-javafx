@@ -16,6 +16,8 @@ public abstract class GameObject {
 	
 	protected double width;
 	protected double height;
+	protected double collisionWidth;
+	protected double collisionHeight;
 	
 	protected Animation animation;
 	protected int currentAction;
@@ -33,7 +35,7 @@ public abstract class GameObject {
 	}
 	
 	public boolean intersects(GameObject gameObject) {
-		Rectangle r = new Rectangle(xPosition, yPosition, width, height);
+		Rectangle r = new Rectangle(xPosition, yPosition, collisionWidth, collisionHeight);
 		return r.intersects(gameObject.getXPosition(), gameObject.getYPosition(), gameObject.getWidth(), gameObject.getHeight());
 	}
 	

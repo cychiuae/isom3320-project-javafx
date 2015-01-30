@@ -16,14 +16,17 @@ public class FireBall extends GameObject {
 	private ArrayList<ArrayList<Image>> sprites;
 	private boolean isHit;
 	private boolean shouldBeRemoved;
+	private int damage;
 	
 	public FireBall(Map map, boolean right) {
 		super(map);
 		// TODO Auto-generated constructor stub
 		this.right = right;
 		dx = right ? 3.8 : -3.8;
-
+		damage = 5;
+		
 		width = height = 60;
+		collisionHeight = collisionWidth = 40;
 
 		sprites = new ArrayList<ArrayList<Image>>();
 		Image spritesheet = MultimeidaHelper.getImageByName("fireball.gif");
@@ -32,15 +35,24 @@ public class FireBall extends GameObject {
 			frames.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
 		}
 		sprites.add(frames);
-		frames = new ArrayList<Image>();
+		ArrayList<Image> frames2 = new ArrayList<Image>();
 		for(int i = 0; i < 3; i++) {
-			frames.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
+			frames2.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
 		}
-		sprites.add(frames);
+		sprites.add(frames2);
 		
 		animation = new Animation();
 		animation.setFrames(sprites.get(FLYING));
 		animation.setDelay(100);
+	}
+	
+	public void isHit() {
+		if(!isHit) {
+			dx = 0;
+			isHit = true;
+			animation.setFrames(sprites.get(HITING));
+			animation.setDelay(50);
+		}
 	}
 
 	@Override
@@ -74,16 +86,18 @@ public class FireBall extends GameObject {
 		xPosition = nextX;
 		
 		if(dx == 0 && !isHit) {
-			isHit = true;
-			animation.setFrames(sprites.get(HITING));
-			animation.setDelay(100);
+			isHit();
 		}
+		
+		animation.update();
 		
 		if(isHit && animation.playedOnce()) {
 			shouldBeRemoved = true;
 		}
-		
-		animation.update();
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 	
 	public boolean shoudBeRemove() {

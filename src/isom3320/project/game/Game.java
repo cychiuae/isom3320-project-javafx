@@ -1,6 +1,8 @@
 package isom3320.project.game;
 
 import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.scene.Level1;
+import isom3320.project.game.scene.MenuScene;
 import isom3320.project.game.scene.SceneManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -29,6 +31,8 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 	private SceneManager sceneManager;
 	private MediaPlayer mediaPlayer;
 	
+	private boolean playing;
+	
 	@Override
 	public void init() throws Exception {
 		// TODO Auto-generated method stub
@@ -44,6 +48,17 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
+				if(SceneManager.getIntance().getCurrentScene() instanceof Level1) {
+					if(!playing) {
+						mediaPlayer.play();
+						playing = true;
+					}
+				}
+				else {
+					mediaPlayer.stop();
+					playing = false;
+				}
+				
 				gameWindow.update();
 				gameWindow.render();
 			}
@@ -66,7 +81,7 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		scene.setOnKeyReleased(this);
 		
 		gameTimeLine.play();
-		mediaPlayer.play();
+		
 		stage.setResizable(false);
 		stage.show();
 		

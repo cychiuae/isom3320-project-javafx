@@ -6,8 +6,11 @@ public abstract class Character extends GameObject {
 
 	protected int hp;
 	protected int maxHp;
+	
 	protected boolean isDead;
 	protected boolean facingRight;
+	protected boolean isHit;
+	protected long hitTimer;
 	
 	public Character(Map map) {
 		super(map);
@@ -28,5 +31,22 @@ public abstract class Character extends GameObject {
 	
 	public boolean facingRight() {
 		return facingRight;
+	}
+	
+	public void hit(int damage) {
+		if(isDead || isHit) {
+			return;
+		}
+		
+		hp -= damage;
+		if(hp < 0) {
+			hp = 0;
+		}
+		if(hp == 0) {
+			isDead = true;
+		}
+		
+		isHit = true;
+		hitTimer = System.nanoTime();
 	}
 }

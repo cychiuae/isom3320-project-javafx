@@ -1,16 +1,20 @@
 package isom3320.project.game.scene;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import isom3320.project.game.Game;
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
+import isom3320.project.game.object.Enemy;
 import isom3320.project.game.object.FireBall;
+import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
 import isom3320.project.game.scoresystem.Score;
 import isom3320.project.game.scoresystem.ScoreSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -29,7 +33,7 @@ public class Level1 extends Scene {
 	private boolean stop;
 	
 	private Player player;
-	private ArrayList<FireBall> fireBalls;
+	private ArrayList<Enemy> enemies;
 
 	public Level1() {
 		inited = false;
@@ -51,12 +55,12 @@ public class Level1 extends Scene {
 		player = new Player(map);
 		player.setPosition(100, 100);
 		
-		fireBalls = new ArrayList<FireBall>();
+		enemies = new ArrayList<Enemy>();
+		createEnemies();
 
 		currentOption = 0;
 		options = new String[] {
 				"Resume",
-				"Restart",
 				"Quit"
 		};
 		
@@ -66,15 +70,41 @@ public class Level1 extends Scene {
 		
 		inited = true;
 	}
+	
+	private void createEnemies() {
+		for(int i = 0; i < 15; i++) {
+			Random random = new Random();
+			Enemy e = new Mushroom(map);
+			e.setPosition((random.nextDouble() * 5400) + 100, 100);
+			enemies.add(e);
+		}
+	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		if(stop) {
+			return;
+		}
+		
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
 		player.update();
 		
-		for(int i = 0; i < fireBalls.size(); i++) {
-			fireBalls.get(i).update();
+		for(int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			
+			e.update();
+			
+			if(player.intersects(e)) {
+				player.hit(e.getDamage());
+			}
+			
+			player.checkHit(e);
+			
+			if(e.isDead()) {
+				enemies.remove(i);
+				i--;
+			}
 		}
 	}
 
@@ -84,12 +114,66 @@ public class Level1 extends Scene {
 		background.render(gc);
 		map.render(gc);
 		player.render(gc);
+		
+		for(Enemy e : enemies) {
+			e.render(gc);
+		}
+		
+		if(stop) {
+			gc.setFill(Color.rgb(200, 200, 200, 0.5));
+			gc.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			drawOption(gc);
+		}
+	}
+	
+	private void drawOption(GraphicsContext gc) {
+		gc.setFont(font);
+		
+		for(int i = 0; i < options.length; i++) {
+			if(i == currentOption) {
+				gc.setFill(Color.RED);
+			}
+			else {
+				gc.setFill(Color.BLACK);
+			}
+			
+			gc.fillText(options[i], 290, 240 + i * 30);
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
-		player.keyPressed(keyCode);
+		if(!stop) {
+			player.keyPressed(keyCode);
+		}
+		
+		if(stop) {
+			if(keyCode == KeyCode.UP) {
+				currentOption --;
+				if(currentOption < 0) {
+					currentOption = options.length - 1;
+				}
+			}
+			
+			if(keyCode == KeyCode.DOWN) {
+				currentOption++;
+				if(currentOption == options.length) {
+					currentOption = 0;
+				}
+			}
+			
+			if(keyCode == KeyCode.ENTER) {
+				stop = !stop;
+				if(currentOption == options.length - 1) {
+					SceneManager.getIntance().changeSceneLevel(SceneManager.MENU);
+				}
+			}
+		}
+		
+		if(keyCode == KeyCode.ESCAPE) {
+			stop = !stop;
+		}
 	}
 
 	@Override
