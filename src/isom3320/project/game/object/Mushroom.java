@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.Map.Tile;
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -22,10 +22,10 @@ public class Mushroom extends Enemy {
 		facingRight = right = true;
 
 		damage = 2;
-		Image spritesheet = MultimeidaHelper.getImageByName("slugger.gif");
+		Image spritesheet = MultimediaHelper.getImageByName("slugger.gif");
 		ArrayList<Image> frames = new ArrayList<Image>();
 		for(int i = 0; i < 3; i++) {
-			frames.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
+			frames.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
 		}
 		animation = new Animation();
 		animation.setFrames(frames);

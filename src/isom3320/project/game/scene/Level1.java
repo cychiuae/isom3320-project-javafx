@@ -166,7 +166,7 @@ public class Level1 extends Scene {
 			if(keyCode == KeyCode.ENTER) {
 				stop = !stop;
 				if(currentOption == options.length - 1) {
-					SceneManager.getIntance().changeSceneLevel(SceneManager.MENU);
+					SceneManager.getInstance().changeSceneLevel(SceneManager.MENU);
 				}
 			}
 		}

@@ -15,11 +15,11 @@ public class GameWindow extends Canvas {
 	}
 	
 	public void update() {
-		SceneManager.getIntance().getCurrentScene().update();
+		SceneManager.getInstance().getCurrentScene().update();
 	}
 	
 	public void render() {
 		gc.clearRect(0, 0, getWidth(), getHeight());
-		SceneManager.getIntance().getCurrentScene().render(gc);
+		SceneManager.getInstance().getCurrentScene().render(gc);
 	}
 }

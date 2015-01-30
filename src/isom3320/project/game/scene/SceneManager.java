@@ -13,7 +13,7 @@ public class SceneManager {
 	private int currentLevel;
 	private ArrayList<Scene> scenes;
 	
-	public static SceneManager getIntance() {
+	public static SceneManager getInstance() {
 		if(instance == null) {
 			instance = new SceneManager();
 		}

@@ -2,7 +2,7 @@ package isom3320.project.game.object;
 
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.Map.Tile;
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 
 import java.util.ArrayList;
 
@@ -54,17 +54,17 @@ public class Player extends Character {
 
 		sprites = new ArrayList<ArrayList<Image>>();
 
-		Image spritesheet = MultimeidaHelper.getImageByName("playersprites.gif");
+		Image spritesheet = MultimediaHelper.getImageByName("playersprites.gif");
 		int[] numFrames = new int[] {2, 8, 1, 2, 4, 2, 5};
 		for(int i = 0; i < 7; i++) {
 			ArrayList<Image> frames = new ArrayList<Image>();
 
 			for(int j = 0; j < numFrames[i]; j++) {
 				if(i != ATTACKING) {
-					frames.add(MultimeidaHelper.getSubImage(spritesheet, (int)(j * width), (int)(i * height), (int)width, (int)height));
+					frames.add(MultimediaHelper.getSubImage(spritesheet, (int)(j * width), (int)(i * height), (int)width, (int)height));
 				}
 				else {
-					frames.add(MultimeidaHelper.getSubImage(spritesheet, (int)(j * width * 2), (int)(i * height), (int)width * 2, (int)height));
+					frames.add(MultimediaHelper.getSubImage(spritesheet, (int)(j * width * 2), (int)(i * height), (int)width * 2, (int)height));
 				}
 			}
 			sprites.add(frames);
