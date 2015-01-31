@@ -47,7 +47,7 @@ public class Level1 extends Scene {
 		map = new Map("Resources/level1-1.txt", 60);
 		map.setPosition(0);
 
-		background = new Background("grassbg1.gif", 0.1);
+		background = new Background("background.png", 0.1);
 
 		score = new Score("Player", 0);
 		font = Font.font("Arial", FontWeight.NORMAL, 24);

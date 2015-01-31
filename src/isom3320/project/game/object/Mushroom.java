@@ -22,14 +22,14 @@ public class Mushroom extends Enemy {
 		facingRight = right = true;
 
 		damage = 2;
-		Image spritesheet = MultimediaHelper.getImageByName("slugger.gif");
+		Image spritesheet = MultimediaHelper.getImageByName("mushroom.png");
 		ArrayList<Image> frames = new ArrayList<Image>();
 		for(int i = 0; i < 3; i++) {
-			frames.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
+			frames.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
 		}
 		animation = new Animation();
 		animation.setFrames(frames);
-		animation.setDelay(100);
+		animation.setDelay(40);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Mushroom extends Enemy {
 		// TODO Auto-generated method stub
 		if(left || right) {
 			facingRight = right;
-			dx = right ? 0.3 : -0.3;
+			dx = right ? 3 : -3;
 		}
 
 		if(falling) {
