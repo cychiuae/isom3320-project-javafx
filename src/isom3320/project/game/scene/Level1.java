@@ -106,6 +106,17 @@ public class Level1 extends Scene {
 				i--;
 			}
 		}
+		
+		if(player.getXPosition() > 5850) {
+			int[][] mapData = map.getMap();
+			for(int i = 5; i < 7; i++) {
+				mapData[i][94] = 3;
+				mapData[i][97] = 4;
+
+				mapData[i][95] = 22;
+				mapData[i][96] = 22;
+			}
+		}
 	}
 
 	@Override

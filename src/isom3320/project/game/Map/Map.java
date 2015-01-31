@@ -55,13 +55,6 @@ public class Map {
 				}
 			}
 			
-//			for(int i = 0; i < 8; i++) {
-//				for(int j = 0; j < 107; j++) {
-//					System.out.printf("%-5d", map[i][j]);
-//				}
-//				System.out.println();
-//			}
-			
 			br.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -106,6 +99,10 @@ public class Map {
 	
 	public int getTileType(int row, int col) {
 		return tiles[map[row][col]].getType();
+	}
+	
+	public int[][] getMap() {
+		return map;
 	}
 	
 	public void render(GraphicsContext gc) {
