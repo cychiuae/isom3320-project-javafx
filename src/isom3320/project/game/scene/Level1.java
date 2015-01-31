@@ -47,7 +47,7 @@ public class Level1 extends Scene {
 		map = new Map("Resources/level1-1.txt", 60);
 		map.setPosition(0);
 
-		background = new Background("grassbg1.gif", 0.1);
+		background = new Background("background.png", 0.1);
 
 		score = new Score("Player", 0);
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
@@ -107,6 +107,17 @@ public class Level1 extends Scene {
 			if(e.isDead()) {
 				enemies.remove(i);
 				i--;
+			}
+		}
+		
+		if(player.getXPosition() > 5850) {
+			int[][] mapData = map.getMap();
+			for(int i = 5; i < 7; i++) {
+				mapData[i][94] = 3;
+				mapData[i][97] = 4;
+
+				mapData[i][95] = 22;
+				mapData[i][96] = 22;
 			}
 		}
 	}
