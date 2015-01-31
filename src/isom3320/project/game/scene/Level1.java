@@ -93,21 +93,31 @@ public class Level1 extends Scene {
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
 		player.update();
 		
-		for(int i = 0; i < enemies.size(); i++) {
-			Enemy e = enemies.get(i);
+		for(int i = 1; i < enemies.size(); i++) {
+			Enemy mushroom = enemies.get(i);
 			
-			e.update();
+			mushroom.update();
 			
-			if(player.intersects(e)) {
-				player.hit(e.getDamage());
+			if(player.intersects(mushroom)) {
+				player.hit(mushroom.getDamage());
 			}
 			
-			player.checkHit(e);
+			player.checkHit(mushroom);
 			
-			if(e.isDead()) {
+			if(mushroom.isDead()) {
 				enemies.remove(i);
 				i--;
 			}
+		}
+		
+		Enemy boss = enemies.get(0);
+		boss.update();
+		if(player.intersects(boss)) {
+			player.hit(boss.getDamage());
+		}
+		player.checkHit(boss);
+		if(boss.isDead()) {
+			enemies.remove(0);
 		}
 		
 		if(player.getXPosition() > 5850) {
