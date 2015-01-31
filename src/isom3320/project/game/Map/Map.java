@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import isom3320.project.game.Game;
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -63,15 +63,15 @@ public class Map {
 	}
 	
 	public void loadTiles() {
-		Image tileSet = MultimeidaHelper.getImageByName("grasstileset.gif");
+		Image tileSet = MultimediaHelper.getImageByName("grasstileset.gif");
 		int numOfCol = (int) (tileSet.getWidth() / tileSize);
 		
 		tiles = new Tile[2 * numOfCol];
 		
 		for(int i = 0; i < numOfCol; i++) {
-			WritableImage wi = MultimeidaHelper.getSubImage(tileSet, i * (int)tileSize, 0, (int)tileSize, (int)tileSize);
+			WritableImage wi = MultimediaHelper.getSubImage(tileSet, i * (int)tileSize, 0, (int)tileSize, (int)tileSize);
 			tiles[i] = new Tile(wi, Tile.NORMALTILE);
-			wi = MultimeidaHelper.getSubImage(tileSet, i * (int)tileSize, (int)tileSize, (int)tileSize, (int)tileSize);
+			wi = MultimediaHelper.getSubImage(tileSet, i * (int)tileSize, (int)tileSize, (int)tileSize, (int)tileSize);
 			tiles[i + numOfCol] = new Tile(wi, Tile.BLOCKTILE);
 		}
 	}

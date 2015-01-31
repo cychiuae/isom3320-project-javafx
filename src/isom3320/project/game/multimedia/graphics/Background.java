@@ -1,7 +1,7 @@
 package isom3320.project.game.multimedia.graphics;
 
 import isom3320.project.game.Game;
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -12,7 +12,7 @@ public class Background {
 	private double moveScale;
 	
 	public Background(String imageName, double moveScale) {
-		image = MultimeidaHelper.getImageByName(imageName);
+		image = MultimediaHelper.getImageByName(imageName);
 		this.moveScale = moveScale;
 	}
 	

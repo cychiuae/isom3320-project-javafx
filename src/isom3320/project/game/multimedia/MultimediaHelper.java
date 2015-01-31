@@ -8,7 +8,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 
-public class MultimeidaHelper {
+public class MultimediaHelper {
 	public static final String resourcesDir = "Resources/";
 	
 	public static Image getImageByName(String imageName) {

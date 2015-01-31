@@ -96,7 +96,7 @@ public class MenuScene extends Scene {
 				System.exit(0);
 			}
 			if(currentOption == 0) {
-				SceneManager.getIntance().changeSceneLevel(SceneManager.LEVEL1);
+				SceneManager.getInstance().changeSceneLevel(SceneManager.LEVEL1);
 			}
 		}
 	}

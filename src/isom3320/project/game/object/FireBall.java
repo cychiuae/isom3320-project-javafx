@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.Map.Tile;
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -29,15 +29,15 @@ public class FireBall extends GameObject {
 		collisionHeight = collisionWidth = 40;
 
 		sprites = new ArrayList<ArrayList<Image>>();
-		Image spritesheet = MultimeidaHelper.getImageByName("fireball.gif");
+		Image spritesheet = MultimediaHelper.getImageByName("fireball.gif");
 		ArrayList<Image> frames = new ArrayList<Image>();
 		for(int i = 0; i < 4; i++) {
-			frames.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
+			frames.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
 		}
 		sprites.add(frames);
 		ArrayList<Image> frames2 = new ArrayList<Image>();
 		for(int i = 0; i < 3; i++) {
-			frames2.add(MultimeidaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
+			frames2.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
 		}
 		sprites.add(frames2);
 		

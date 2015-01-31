@@ -1,6 +1,6 @@
 package isom3320.project.game;
 
-import isom3320.project.game.multimedia.MultimeidaHelper;
+import isom3320.project.game.multimedia.MultimediaHelper;
 import isom3320.project.game.scene.Level1;
 import isom3320.project.game.scene.MenuScene;
 import isom3320.project.game.scene.SceneManager;
@@ -39,16 +39,16 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		super.init();
 		
 		gameWindow = new GameWindow(WIDTH, HEIGHT);
-		sceneManager = SceneManager.getIntance();
+		sceneManager = SceneManager.getInstance();
 		
-		mediaPlayer = new MediaPlayer(MultimeidaHelper.getMusicByName("bg.mp3"));
+		mediaPlayer = new MediaPlayer(MultimediaHelper.getMusicByName("bg.mp3"));
 		
 		Duration secondPerFrame = Duration.millis(1000 / (float) FPS);
 		KeyFrame keyFrame = new KeyFrame(secondPerFrame, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				if(SceneManager.getIntance().getCurrentScene() instanceof Level1) {
+				if(SceneManager.getInstance().getCurrentScene() instanceof Level1) {
 					if(!playing) {
 						mediaPlayer.play();
 						playing = true;
