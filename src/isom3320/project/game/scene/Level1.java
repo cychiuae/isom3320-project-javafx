@@ -6,8 +6,8 @@ import java.util.Random;
 import isom3320.project.game.Game;
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
+import isom3320.project.game.object.Boss;
 import isom3320.project.game.object.Enemy;
-import isom3320.project.game.object.FireBall;
 import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
 import isom3320.project.game.scoresystem.Score;
@@ -53,7 +53,7 @@ public class Level1 extends Scene {
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
 		
 		player = new Player(map);
-		player.setPosition(100, 100);
+		player.setPosition(6000, 100);
 		
 		enemies = new ArrayList<Enemy>();
 		createEnemies();
@@ -72,11 +72,14 @@ public class Level1 extends Scene {
 	}
 	
 	private void createEnemies() {
+		Enemy boss = new Boss(map);
+		boss.setPosition(6030, 100);
+		enemies.add(boss);
 		for(int i = 0; i < 15; i++) {
 			Random random = new Random();
-			Enemy e = new Mushroom(map);
-			e.setPosition((random.nextDouble() * 5400) + 100, 100);
-			enemies.add(e);
+			Enemy mushroom = new Mushroom(map);
+			mushroom.setPosition((random.nextDouble() * 5400) + 100, 100);
+			enemies.add(mushroom);
 		}
 	}
 

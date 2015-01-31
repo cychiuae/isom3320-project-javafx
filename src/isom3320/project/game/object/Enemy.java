@@ -16,4 +16,13 @@ public abstract class Enemy extends Character {
 		return damage;
 	}
 	
+	@Override
+	public void keyPressed(KeyCode keyCode) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyReleased(KeyCode keyCode) {
+		// TODO Auto-generated method stub	
+	}
 }

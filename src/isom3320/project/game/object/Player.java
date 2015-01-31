@@ -78,7 +78,7 @@ public class Player extends Character {
 	
 	public void checkHit(Enemy e) {
 		for(int i = 0; i < balls.size(); i++) {
-			FireBall fb = balls.get(i);
+			Bullet fb = balls.get(i);
 			
 			if(fb.intersects(e)) {
 				e.hit(fb.getDamage());

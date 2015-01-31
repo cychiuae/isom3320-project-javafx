@@ -137,17 +137,4 @@ public class Mushroom extends Enemy {
 			gc.drawImage(animation.getImage(), xPosition + map.getX() + width / 2 , yPosition - height / 2, -width, height);
 		}
 	}
-
-	@Override
-	public void keyPressed(KeyCode keyCode) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyCode keyCode) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
