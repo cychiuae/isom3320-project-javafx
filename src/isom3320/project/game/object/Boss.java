@@ -21,8 +21,6 @@ public class Boss extends Enemy {
 	private int attackDamage;
 	private int attackRange;
 
-	private boolean flying;
-
 	private ArrayList<ArrayList<Image>> sprites;
 
 	public Boss(Map map) {
@@ -88,7 +86,6 @@ public class Boss extends Enemy {
 			dy += 0.15;
 		}
 
-		int currentCol = (int) (xPosition / tileSize);
 		int currentRow = (int) (yPosition / tileSize);
 
 		double nextX = xPosition + dx;

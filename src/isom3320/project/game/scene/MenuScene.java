@@ -1,7 +1,6 @@
 package isom3320.project.game.scene;
 
 import isom3320.project.game.Game;
-import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;

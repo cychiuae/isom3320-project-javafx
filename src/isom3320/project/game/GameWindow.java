@@ -1,7 +1,6 @@
 package isom3320.project.game;
 
 import isom3320.project.game.scene.SceneManager;
-import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 

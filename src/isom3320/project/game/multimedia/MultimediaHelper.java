@@ -3,10 +3,8 @@ package isom3320.project.game.multimedia;
 import java.io.File;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
-import javafx.scene.paint.Color;
 
 public class MultimediaHelper {
 	public static final String resourcesDir = "Resources/";

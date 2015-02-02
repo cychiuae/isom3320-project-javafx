@@ -1,7 +1,6 @@
 package isom3320.project.game.Map;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import isom3320.project.game.Game;

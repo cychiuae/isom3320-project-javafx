@@ -41,8 +41,6 @@ public abstract class Bullet extends GameObject {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		int currentCol = (int) (xPosition / tileSize);
 		int currentRow = (int) (yPosition / tileSize);
 		
 		double nextX = xPosition + dx;

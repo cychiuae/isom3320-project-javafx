@@ -2,7 +2,6 @@ package isom3320.project.game;
 
 import isom3320.project.game.multimedia.MultimediaHelper;
 import isom3320.project.game.scene.Level1;
-import isom3320.project.game.scene.MenuScene;
 import isom3320.project.game.scene.SceneManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -18,6 +17,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+@SuppressWarnings("deprecation")
 public class Game extends Application implements EventHandler<KeyEvent>{
 
 	public static final String GAMETITLE = "MARISOM3320";
