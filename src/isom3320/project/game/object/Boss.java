@@ -183,7 +183,7 @@ public class Boss extends Enemy {
 			if(currentAction != FIRING) {
 				currentAction = FIRING;
 				animation.setFrames(sprites.get(FIRING));
-				animation.setDelay(100);
+				animation.setDelay(50);
 				width = 60;
 				fireBall();
 			}

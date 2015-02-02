@@ -53,7 +53,7 @@ public class Level1 extends Scene {
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
 		
 		player = new Player(map);
-		player.setPosition(6000, 100);
+		player.setPosition(200, 100);
 		
 		enemies = new ArrayList<Enemy>();
 		createEnemies();

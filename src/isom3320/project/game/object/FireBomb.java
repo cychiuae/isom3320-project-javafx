@@ -18,7 +18,7 @@ public class FireBomb extends Bullet {
 		collisionHeight = collisionWidth = 40;
 		
 		sprites = new ArrayList<ArrayList<Image>>();
-		Image spritesheet = MultimediaHelper.getImageByName("fireball.gif");
+		Image spritesheet = MultimediaHelper.getImageByName("firebomb.gif");
 		ArrayList<Image> ballframes = new ArrayList<Image>();
 		for(int i = 0; i < 4; i++) {
 			ballframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
@@ -30,7 +30,7 @@ public class FireBomb extends Bullet {
 		
 		ArrayList<Image> explosionframes = new ArrayList<Image>();
 		for(int i = 0; i < 4; i++) {
-			explosionframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 120 + (int) height, (int) width, (int) height));
+			explosionframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), (int) (2 * height), (int) width, (int) height));
 		}
 		sprites.add(explosionframes);
 		
