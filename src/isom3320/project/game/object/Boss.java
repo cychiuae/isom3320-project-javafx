@@ -7,49 +7,40 @@ import isom3320.project.game.Map.Tile;
 import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 
 public class Boss extends Enemy {
 	private static final int WALKING = 0;
 	private static final int FIRING = 1;
+	private static final int JUMPING = 2;
 
 	private ArrayList<FireBomb> balls;
-	private int numOfFire;
-	private int maxFire;
 	private boolean firing;
 
-	private boolean attack;
-	private int attackDamage;
-	private int attackRange;
-
-	private boolean flying;
+	private boolean jumping;
 
 	private ArrayList<ArrayList<Image>> sprites;
 
 	public Boss(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
-		width = 80;
-		height = 92;
-		collisionHeight = 90;
-		collisionWidth = 80;
+		width = 64;
+		height = 80;
+		collisionHeight = 80;
+		collisionWidth = 64;
 
-		dx = 1.6;
-		facingRight = true;
+		dx = 0.7;
+		facingRight = right = true;
 
-		hp = maxHp = 10;
+		hp = maxHp = 30;
+		firing = jumping = false;
 
 		balls = new ArrayList<FireBomb>();
-		numOfFire = maxFire = 5;
-
-		attackDamage = 5;
-		attackRange = 80;
 
 		sprites = new ArrayList<ArrayList<Image>>();
 
 		Image spritesheet = MultimediaHelper.getImageByName("boss.gif");
-		int[] numFrames = new int[] {6, 6};
-		for(int i = 0; i < 2; i++) {
+		int[] numFrames = new int[] {6, 6, 6};
+		for(int i = 0; i < 3; i++) {
 			ArrayList<Image> frames = new ArrayList<Image>();
 
 			for(int j = 0; j < numFrames[i]; j++) {
@@ -75,13 +66,13 @@ public class Boss extends Enemy {
 			}
 		}
 	}
-
+	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		if(left || right) {
 			facingRight = right;
-			dx = right ? 0.3 : -0.3;
+			dx = right ? 1.7 : -1.7;
 		}
 
 		if(falling) {
@@ -89,7 +80,6 @@ public class Boss extends Enemy {
 			dy += 0.15;
 		}
 
-		int currentCol = (int) (xPosition / tileSize);
 		int currentRow = (int) (yPosition / tileSize);
 
 		double nextX = xPosition + dx;
@@ -143,7 +133,7 @@ public class Boss extends Enemy {
 			if(!(map.getTileType(currentRow + 1, (int) ((xPosition + (width - 15) / 2 - 1) / tileSize) ) == Tile.BLOCKTILE) && !(map.getTileType(currentRow + 1, (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE)) {
 				falling = true;
 			}
-
+			
 			if(right && dx == 0) {
 				left = true;
 				right = facingRight = false;
@@ -153,7 +143,7 @@ public class Boss extends Enemy {
 				right = facingRight = true;
 			}
 		}
-
+		
 		if(isHit) {
 			if((System.nanoTime() - hitTimer) / 1000000 > 1000) {
 				isHit = false;
@@ -162,8 +152,77 @@ public class Boss extends Enemy {
 
 		xPosition = nextX;
 		yPosition = nextY;
-
+		
+		updateAction();
 		animation.update();
+	}
+
+	@Override
+	public void startFiring() {
+		firing = true;
+	}
+	
+	@Override
+	public void startJumping() {
+		jumping = true;
+	}
+	
+	private void fireBall() {
+		FireBomb fb = new FireBomb(map, facingRight);
+		if(facingRight) {
+			fb.setPosition(xPosition + 30, yPosition);
+		}
+		else {
+			fb.setPosition(xPosition, yPosition);
+		}
+		balls.add(fb);
+	}
+	
+	private void updateAction() {
+		if(firing) {
+			if(currentAction != FIRING) {
+				currentAction = FIRING;
+				animation.setFrames(sprites.get(FIRING));
+				animation.setDelay(50);
+				width = 60;
+				fireBall();
+			}
+			if(animation.playedOnce()) {
+				firing = false;
+			}
+		}
+		else if(jumping) {
+			if(currentAction != JUMPING) {
+				currentAction = JUMPING;
+				animation.setFrames(sprites.get(JUMPING));
+				animation.setDelay(100);
+				width = 60;
+				falling = true;
+				dy = -2.8;
+			}
+			if(animation.playedOnce()) {
+				jumping = false;
+			}
+		}
+		else if(left || right) {
+			if(currentAction != WALKING) {
+				currentAction = WALKING;
+				animation.setFrames(sprites.get(WALKING));
+				animation.setDelay(100);
+				width = 60;
+			}
+		}
+		for(int i = 0; i < balls.size(); i++) {
+			FireBomb fb = balls.get(i);
+			
+			if(fb.shoudBeRemove()) {
+				balls.remove(i);
+				i--;
+			}
+			else {
+				fb.update();
+			}
+		}
 	}
 
 	@Override

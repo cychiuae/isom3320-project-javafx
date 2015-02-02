@@ -152,15 +152,14 @@ public class Player extends Character {
 			}
 		}
 
-		int currentCol = (int) (xPosition / tileSize);
 		int currentRow = (int) (yPosition / tileSize);
 
 		double nextX = xPosition + dx;
 		double nextY = yPosition + dy;
 
 		if(dx > 0) {
-			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int) ((nextX + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE ||
-			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int) ((nextX + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int) ((nextX + 30) / tileSize)) == Tile.BLOCKTILE ||
+			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int) ((nextX + 30) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -170,8 +169,8 @@ public class Player extends Character {
 			}
 		}
 		else if(dx < 0) {
-			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int)((nextX - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE ||
-			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int)((nextX - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int)((nextX - 30) / tileSize)) == Tile.BLOCKTILE ||
+			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int)((nextX - 30) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -339,6 +338,7 @@ public class Player extends Character {
 		gc.fillText("FireBall: " + numOfFire + "/" + maxFire, 10, 20);
 		gc.fillText("HP: " + hp + "/" + maxHp, 10, 50);
 		gc.fillText("x: " + xPosition, 10, 100);
+		gc.fillText("y: " + yPosition, 10, 130);
 
 	}
 
