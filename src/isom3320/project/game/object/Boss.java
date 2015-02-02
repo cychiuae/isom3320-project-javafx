@@ -58,10 +58,8 @@ public class Boss extends Enemy {
 	public void checkHit(Player p) {
 		for(int i = 0; i < balls.size(); i++) {
 			Bullet fb = balls.get(i);
-
 			if(fb.intersects(p)) {
 				p.hit(fb.getDamage());
-
 				fb.isHit();
 			}
 		}

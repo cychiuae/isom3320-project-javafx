@@ -147,4 +147,10 @@ public class Mushroom extends Enemy {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void checkHit(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
 }

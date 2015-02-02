@@ -28,4 +28,6 @@ public abstract class Enemy extends Character {
 	public abstract void startFiring();
 	
 	public abstract void startJumping();
+
+	public abstract void checkHit(Player player);
 }
