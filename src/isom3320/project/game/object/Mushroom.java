@@ -7,7 +7,6 @@ import isom3320.project.game.Map.Tile;
 import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 
 public class Mushroom extends Enemy {
 
@@ -45,7 +44,6 @@ public class Mushroom extends Enemy {
 			dy += 0.15;
 		}
 
-		int currentCol = (int) (xPosition / tileSize);
 		int currentRow = (int) (yPosition / tileSize);
 
 		double nextX = xPosition + dx;
@@ -136,5 +134,17 @@ public class Mushroom extends Enemy {
 		else {
 			gc.drawImage(animation.getImage(), xPosition + map.getX() + width / 2 , yPosition - height / 2, -width, height);
 		}
+	}
+
+	@Override
+	public void startFiring() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startJumping() {
+		// TODO Auto-generated method stub
+		
 	}
 }

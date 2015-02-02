@@ -14,23 +14,23 @@ public class FireBomb extends Bullet {
 		dx = right ? 3.0 : -3.0;
 		damage = 5;
 		
-		width = 40;
-		height = 22;
-		collisionWidth = 40;
-		collisionHeight = 22;
+		width = height = 60;
+		collisionHeight = collisionWidth = 40;
 		
 		sprites = new ArrayList<ArrayList<Image>>();
 		Image spritesheet = MultimediaHelper.getImageByName("fireball.gif");
 		ArrayList<Image> ballframes = new ArrayList<Image>();
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			ballframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 0, (int) width, (int) height));
+		}
+		for(int i = 0; i < 2; i++) {
+			ballframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), (int) height, (int) width, (int) height));
 		}
 		sprites.add(ballframes);
 		
-		int explosionWidth = 30, explosionHeight = 30;
 		ArrayList<Image> explosionframes = new ArrayList<Image>();
 		for(int i = 0; i < 4; i++) {
-			explosionframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * explosionWidth), (int) explosionHeight, (int) explosionWidth, (int) explosionHeight));
+			explosionframes.add(MultimediaHelper.getSubImage(spritesheet, (int) (i * width), 120 + (int) height, (int) width, (int) height));
 		}
 		sprites.add(explosionframes);
 		

@@ -24,4 +24,8 @@ public abstract class Enemy extends Character {
 	public void keyReleased(KeyCode keyCode) {
 		// TODO Auto-generated method stub	
 	}
+
+	public abstract void startFiring();
+	
+	public abstract void startJumping();
 }

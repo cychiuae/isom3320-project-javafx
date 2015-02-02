@@ -53,7 +53,7 @@ public class Level1 extends Scene {
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
 		
 		player = new Player(map);
-		player.setPosition(200, 100);
+		player.setPosition(6000, 100);
 		
 		enemies = new ArrayList<Enemy>();
 		createEnemies();
@@ -73,7 +73,7 @@ public class Level1 extends Scene {
 	
 	private void createEnemies() {
 		Enemy boss = new Boss(map);
-		boss.setPosition(6030, 100);
+		boss.setPosition(6080, 100);
 		enemies.add(boss);
 		for(int i = 0; i < 15; i++) {
 			Random random = new Random();
@@ -94,14 +94,6 @@ public class Level1 extends Scene {
 		player.update();
 
 		Enemy boss = enemies.get(0);
-		boss.update();
-		if(player.intersects(boss)) {
-			player.hit(boss.getDamage());
-		}
-		player.checkHit(boss);
-		if(boss.isDead()) {
-			enemies.remove(0);
-		}
 		
 		for(int i = 1; i < enemies.size(); i++) {
 			Enemy mushroom = enemies.get(i);
@@ -121,6 +113,15 @@ public class Level1 extends Scene {
 		}
 		
 		if(player.getXPosition() > 5850) {
+			boss.update();
+			if(player.intersects(boss)) {
+				player.hit(boss.getDamage());
+			}
+			player.checkHit(boss);
+			if(boss.isDead()) {
+				enemies.remove(0);
+			}
+			
 			int[][] mapData = map.getMap();
 			for(int i = 5; i < 7; i++) {
 				mapData[i][94] = 3;
@@ -128,6 +129,15 @@ public class Level1 extends Scene {
 
 				mapData[i][95] = 22;
 				mapData[i][96] = 22;
+			}
+			
+			if((player.facingRight() && (player.getXPosition() < boss.getXPosition()) && !boss.facingRight()) ||
+					(!player.facingRight() && (player.getXPosition() > boss.getXPosition()) && boss.facingRight())) {
+				boss.startFiring();
+			}
+			
+			if(player.getYPosition() < 300) {
+				boss.startJumping();
 			}
 		}
 	}

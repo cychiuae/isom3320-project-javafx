@@ -11,42 +11,36 @@ import javafx.scene.image.Image;
 public class Boss extends Enemy {
 	private static final int WALKING = 0;
 	private static final int FIRING = 1;
+	private static final int JUMPING = 2;
 
 	private ArrayList<FireBomb> balls;
-	private int numOfFire;
-	private int maxFire;
 	private boolean firing;
 
-	private boolean attack;
-	private int attackDamage;
-	private int attackRange;
+	private boolean jumping;
 
 	private ArrayList<ArrayList<Image>> sprites;
 
 	public Boss(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
-		width = 60;
-		height = 60;
-		collisionHeight = 60;
-		collisionWidth = 60;
+		width = 64;
+		height = 80;
+		collisionHeight = 80;
+		collisionWidth = 64;
 
-		dx = 1.6;
+		dx = 0.7;
 		facingRight = right = true;
 
 		hp = maxHp = 30;
+		firing = jumping = false;
 
 		balls = new ArrayList<FireBomb>();
-		numOfFire = maxFire = 5;
-
-		attackDamage = 5;
-		attackRange = 80;
 
 		sprites = new ArrayList<ArrayList<Image>>();
 
 		Image spritesheet = MultimediaHelper.getImageByName("boss.gif");
-		int[] numFrames = new int[] {6, 6};
-		for(int i = 0; i < 2; i++) {
+		int[] numFrames = new int[] {6, 6, 6};
+		for(int i = 0; i < 3; i++) {
 			ArrayList<Image> frames = new ArrayList<Image>();
 
 			for(int j = 0; j < numFrames[i]; j++) {
@@ -78,7 +72,7 @@ public class Boss extends Enemy {
 		// TODO Auto-generated method stub
 		if(left || right) {
 			facingRight = right;
-			dx = right ? 3 : -3;
+			dx = right ? 1.7 : -1.7;
 		}
 
 		if(falling) {
@@ -162,6 +156,27 @@ public class Boss extends Enemy {
 		updateAction();
 		animation.update();
 	}
+
+	@Override
+	public void startFiring() {
+		firing = true;
+	}
+	
+	@Override
+	public void startJumping() {
+		jumping = true;
+	}
+	
+	private void fireBall() {
+		FireBomb fb = new FireBomb(map, facingRight);
+		if(facingRight) {
+			fb.setPosition(xPosition + 30, yPosition);
+		}
+		else {
+			fb.setPosition(xPosition, yPosition);
+		}
+		balls.add(fb);
+	}
 	
 	private void updateAction() {
 		if(firing) {
@@ -170,9 +185,23 @@ public class Boss extends Enemy {
 				animation.setFrames(sprites.get(FIRING));
 				animation.setDelay(100);
 				width = 60;
+				fireBall();
 			}
 			if(animation.playedOnce()) {
 				firing = false;
+			}
+		}
+		else if(jumping) {
+			if(currentAction != JUMPING) {
+				currentAction = JUMPING;
+				animation.setFrames(sprites.get(JUMPING));
+				animation.setDelay(100);
+				width = 60;
+				falling = true;
+				dy = -2.8;
+			}
+			if(animation.playedOnce()) {
+				jumping = false;
 			}
 		}
 		else if(left || right) {
@@ -181,6 +210,17 @@ public class Boss extends Enemy {
 				animation.setFrames(sprites.get(WALKING));
 				animation.setDelay(100);
 				width = 60;
+			}
+		}
+		for(int i = 0; i < balls.size(); i++) {
+			FireBomb fb = balls.get(i);
+			
+			if(fb.shoudBeRemove()) {
+				balls.remove(i);
+				i--;
+			}
+			else {
+				fb.update();
 			}
 		}
 	}
