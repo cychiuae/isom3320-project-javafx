@@ -6,12 +6,20 @@ import javafx.scene.input.KeyCode;
 
 public class FireUpBox extends GameObject {
 
-	public FireUpBox(Map map) {
+	private int numOfFireBall;
+	private boolean used;
+	
+	public FireUpBox(Map map, int numOfFireBall) {
 		super(map);
 		// TODO Auto-generated constructor stub
 		width = height = 60;
 		
-		
+		this.numOfFireBall = numOfFireBall;
+		used = false;
+	}
+	
+	public int getNumOfBall() {
+		return numOfFireBall;
 	}
 
 	@Override
@@ -23,7 +31,7 @@ public class FireUpBox extends GameObject {
 	@Override
 	public void render(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

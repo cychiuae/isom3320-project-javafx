@@ -159,7 +159,8 @@ public class Player extends Character {
 		double nextY = yPosition + dy;
 
 		if(dx > 0) {
-			if(map.getTileType(currentRow, (int)((xPosition + 30) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int) ((nextX + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE ||
+			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int) ((nextX + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -169,7 +170,9 @@ public class Player extends Character {
 			}
 		}
 		else if(dx < 0) {
-			if(map.getTileType(currentRow, (int)((xPosition - 30) / tileSize)) == Tile.BLOCKTILE) {
+			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int)((nextX - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE ||
+			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int)((nextX - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE) 
+			{
 				dx = 0;
 				nextX = xPosition;
 			}
@@ -179,23 +182,23 @@ public class Player extends Character {
 		}
 
 		if(dy > 0) {
-			if(map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE || 
-					map.getTileType((int) ((nextY + height / 2 - 1) / tileSize), (int) ((xPosition + (width - 15) / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((nextY + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE || 
+			   map.getTileType((int) ((nextY + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
 				falling = false;
-				nextY = yPosition;
+				nextY = (currentRow + 1) * tileSize - collisionHeight / 2;
 			}
 			else {
 				nextY += dy;
 			}
 		}
 		else if(dy < 0) {
-			if(map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE || 
-					map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + (width - 15) / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+			if(map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE || 
+			   map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
-				nextY = yPosition;
+				nextY = currentRow * tileSize + collisionHeight / 2;
 			}
 			else {
 				nextY += dy;
@@ -203,7 +206,7 @@ public class Player extends Character {
 		}
 
 		if(!falling) {
-			if(!(map.getTileType(currentRow + 1, (int) ((xPosition + (width - 15) / 2 - 1) / tileSize) ) == Tile.BLOCKTILE) && !(map.getTileType(currentRow + 1, (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE)) {
+			if(!(map.getTileType((int) ((nextY + 1 + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE) && !(map.getTileType((int) ((nextY + 1 + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE)) {
 				falling = true;
 			}
 		}

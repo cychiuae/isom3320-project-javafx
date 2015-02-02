@@ -7,6 +7,7 @@ import isom3320.project.game.Game;
 import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
 import isom3320.project.game.object.Boss;
+import isom3320.project.game.object.Coin;
 import isom3320.project.game.object.Enemy;
 import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
@@ -34,6 +35,7 @@ public class Level1 extends Scene {
 	
 	private Player player;
 	private ArrayList<Enemy> enemies;
+	private Coin coin;
 
 	public Level1() {
 		inited = false;
@@ -53,10 +55,13 @@ public class Level1 extends Scene {
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
 		
 		player = new Player(map);
-		player.setPosition(6000, 100);
+		player.setPosition(200, 100);
 		
 		enemies = new ArrayList<Enemy>();
 		createEnemies();
+		
+		coin = new Coin(map);
+		coin.setPosition(200, 60);
 
 		currentOption = 0;
 		options = new String[] {
@@ -92,7 +97,7 @@ public class Level1 extends Scene {
 		
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
 		player.update();
-		
+		coin.update();
 		for(int i = 1; i < enemies.size(); i++) {
 			Enemy mushroom = enemies.get(i);
 			
@@ -138,6 +143,8 @@ public class Level1 extends Scene {
 		background.render(gc);
 		map.render(gc);
 		player.render(gc);
+		
+		coin.render(gc);
 		
 		for(Enemy e : enemies) {
 			e.render(gc);
