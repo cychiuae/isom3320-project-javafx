@@ -73,7 +73,7 @@ public class Level1 extends Scene {
 	
 	private void createEnemies() {
 		Enemy boss = new Boss(map);
-		boss.setPosition(6300, 400);
+		boss.setPosition(6300, 350);
 		enemies.add(boss);
 		for(int i = 0; i < 15; i++) {
 			Random random = new Random();
