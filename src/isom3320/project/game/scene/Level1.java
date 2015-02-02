@@ -60,6 +60,7 @@ public class Level1 extends Scene {
 
 		enemies = new ArrayList<Enemy>();
 		createEnemies();
+
 		coins = new ArrayList<Coin>();		
 		createCoins();
 		
@@ -131,7 +132,7 @@ public class Level1 extends Scene {
 		}
 
 		Enemy boss = enemies.get(0);
-
+		
 		for(int i = 1; i < enemies.size(); i++) {
 			Enemy mushroom = enemies.get(i);
 
@@ -152,6 +153,7 @@ public class Level1 extends Scene {
 
 		if(player.getXPosition() > 5850) {
 			boss.update();
+			boss.checkHit(player);
 			if(player.intersects(boss)) {
 				player.hit(boss.getDamage());
 			}
