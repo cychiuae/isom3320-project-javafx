@@ -1,7 +1,6 @@
 package isom3320.project.game.scene;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +10,7 @@ import isom3320.project.game.Map.Map;
 import isom3320.project.game.multimedia.graphics.Background;
 import isom3320.project.game.object.Boss;
 import isom3320.project.game.object.Coin;
+import isom3320.project.game.object.EatPeopleFlower;
 import isom3320.project.game.object.Enemy;
 import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
@@ -38,6 +38,7 @@ public class Level1 extends Scene {
 	private Player player;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Coin> coins;
+	private ArrayList<EatPeopleFlower> flowers;
 
 	public Level1() {
 		stop = false;
@@ -64,11 +65,28 @@ public class Level1 extends Scene {
 		coins = new ArrayList<Coin>();		
 		createCoins();
 		
+		flowers = new ArrayList<EatPeopleFlower>();
+		createFlowers();
+		
 		currentOption = 0;
 		options = new String[] {
 				"Resume",
 				"Quit"
 		};
+	}
+
+	private void createFlowers() {
+		for(int i = 0; i < 10; i++) {
+			EatPeopleFlower f = new EatPeopleFlower(map);
+			f.setPosition(995 + i * 30, 400);
+			flowers.add(f);
+		}
+		
+		for(int i = 0; i < 12; i++) {
+			EatPeopleFlower f = new EatPeopleFlower(map);
+			f.setPosition(2310 + i * 30, 400);
+			flowers.add(f);
+		}
 	}
 
 	private void createEnemies() {
@@ -151,6 +169,11 @@ public class Level1 extends Scene {
 			}
 		}
 
+		for(EatPeopleFlower f : flowers) {
+			f.update();
+			player.checkAteByFlower(f);
+		}
+		
 		if(player.getXPosition() > 5850) {
 			boss.update();
 			boss.checkHit(player);
@@ -196,6 +219,10 @@ public class Level1 extends Scene {
 
 		for(Coin c : coins) {
 			c.render(gc);
+		}
+		
+		for(EatPeopleFlower f : flowers) {
+			f.render(gc);
 		}
 
 		gc.setFill(Color.WHITE);

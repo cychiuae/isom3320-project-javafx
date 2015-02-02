@@ -75,18 +75,18 @@ public class Player extends Character {
 		animation.setFrames(sprites.get(IDLE));
 		animation.setDelay(400);
 	}
-	
+
 	public void checkHit(Enemy e) {
 		for(int i = 0; i < balls.size(); i++) {
 			Bullet fb = balls.get(i);
-			
+
 			if(fb.intersects(e)) {
 				e.hit(fb.getDamage());
-				
+
 				fb.isHit();
 			}
 		}
-		
+
 		if(attack) {
 			if(facingRight) {
 				if(e.getXPosition() > xPosition && e.getXPosition() < xPosition + attackRange && e.getYPosition() > yPosition - height / 2 && e.getYPosition() < yPosition + height / 2) {
@@ -98,15 +98,26 @@ public class Player extends Character {
 					e.hit(attackDamage);
 				}
 			}
-			
+
 		}
 	}
-	
+
 	public boolean gotCoin(Coin c) {
 		return xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
-			   xPosition + collisionWidth > c.getXPosition() &&
-			   yPosition < c.getYPosition() + tileSize &&
-			   yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht());
+				xPosition + collisionWidth > c.getXPosition() &&
+				yPosition < c.getYPosition() + tileSize &&
+				yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht());
+	}
+
+	public void checkAteByFlower(EatPeopleFlower f) {
+		// TODO Auto-generated method stub
+		if(xPosition + 20 < f.getXPosition() + f.getCollisionWidth() &&
+			xPosition + collisionWidth > f.getXPosition() &&
+			yPosition < f.getYPosition() + tileSize &&
+			yPosition + collisionHeight > f.getYPosition() + (tileSize - f.getCollisionHeight())) 
+		{
+			hit(f.getDamage());
+		}
 	}
 
 	@Override
@@ -166,7 +177,7 @@ public class Player extends Character {
 
 		if(dx > 0) {
 			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int) ((nextX + 30) / tileSize)) == Tile.BLOCKTILE ||
-			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int) ((nextX + 30) / tileSize)) == Tile.BLOCKTILE) 
+					map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int) ((nextX + 30) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -177,7 +188,7 @@ public class Player extends Character {
 		}
 		else if(dx < 0) {
 			if(map.getTileType((int) ((yPosition - collisionHeight / 2) / tileSize), (int)((nextX - 30) / tileSize)) == Tile.BLOCKTILE ||
-			   map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int)((nextX - 30) / tileSize)) == Tile.BLOCKTILE) 
+					map.getTileType((int) ((yPosition + collisionHeight / 2 - 1) / tileSize), (int)((nextX - 30) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dx = 0;
 				nextX = xPosition;
@@ -189,7 +200,7 @@ public class Player extends Character {
 
 		if(dy > 0) {
 			if(map.getTileType((int) ((nextY + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((nextY + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+					map.getTileType((int) ((nextY + collisionHeight / 2 - 1) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
 				falling = false;
@@ -201,7 +212,7 @@ public class Player extends Character {
 		}
 		else if(dy < 0) {
 			if(map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition - collisionWidth / 2) / tileSize)) == Tile.BLOCKTILE || 
-			   map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
+					map.getTileType((int) ((nextY - height / 2) / tileSize), (int) ((xPosition + collisionWidth / 2 - 1) / tileSize)) == Tile.BLOCKTILE) 
 			{
 				dy = 0;
 				nextY = currentRow * tileSize + collisionHeight / 2;
@@ -233,7 +244,7 @@ public class Player extends Character {
 
 		for(int i = 0; i < balls.size(); i++) {
 			FireBall fb = balls.get(i);
-			
+
 			if(fb.shoudBeRemove()) {
 				balls.remove(i);
 				i--;
@@ -336,7 +347,7 @@ public class Player extends Character {
 	public void render(GraphicsContext gc) {
 		// TODO Auto-generated method stub
 		drawPlayer(gc);
-		
+
 		for(int i = 0; i < balls.size(); i++) {
 			balls.get(i).render(gc);
 		}
@@ -388,5 +399,4 @@ public class Player extends Character {
 			attack = false;
 		}
 	}
-
 }
