@@ -7,7 +7,6 @@ import isom3320.project.game.Map.Tile;
 import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 
 public class Boss extends Enemy {
 	private static final int WALKING = 0;
@@ -29,15 +28,15 @@ public class Boss extends Enemy {
 	public Boss(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
-		width = 80;
-		height = 92;
-		collisionHeight = 90;
-		collisionWidth = 80;
+		width = 60;
+		height = 60;
+		collisionHeight = 60;
+		collisionWidth = 60;
 
 		dx = 1.6;
-		facingRight = true;
+		facingRight = right = true;
 
-		hp = maxHp = 10;
+		hp = maxHp = 30;
 
 		balls = new ArrayList<FireBomb>();
 		numOfFire = maxFire = 5;
@@ -75,13 +74,13 @@ public class Boss extends Enemy {
 			}
 		}
 	}
-
+	
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		if(left || right) {
 			facingRight = right;
-			dx = right ? 0.3 : -0.3;
+			dx = right ? 3 : -3;
 		}
 
 		if(falling) {
@@ -143,7 +142,7 @@ public class Boss extends Enemy {
 			if(!(map.getTileType(currentRow + 1, (int) ((xPosition + (width - 15) / 2 - 1) / tileSize) ) == Tile.BLOCKTILE) && !(map.getTileType(currentRow + 1, (int) ((xPosition - (width - 15) / 2) / tileSize)) == Tile.BLOCKTILE)) {
 				falling = true;
 			}
-
+			
 			if(right && dx == 0) {
 				left = true;
 				right = facingRight = false;
@@ -153,7 +152,7 @@ public class Boss extends Enemy {
 				right = facingRight = true;
 			}
 		}
-
+		
 		if(isHit) {
 			if((System.nanoTime() - hitTimer) / 1000000 > 1000) {
 				isHit = false;
@@ -162,8 +161,31 @@ public class Boss extends Enemy {
 
 		xPosition = nextX;
 		yPosition = nextY;
-
+		
+		updateAction();
 		animation.update();
+	}
+	
+	private void updateAction() {
+		if(firing) {
+			if(currentAction != FIRING) {
+				currentAction = FIRING;
+				animation.setFrames(sprites.get(FIRING));
+				animation.setDelay(100);
+				width = 60;
+			}
+			if(animation.playedOnce()) {
+				firing = false;
+			}
+		}
+		else if(left || right) {
+			if(currentAction != WALKING) {
+				currentAction = WALKING;
+				animation.setFrames(sprites.get(WALKING));
+				animation.setDelay(100);
+				width = 60;
+			}
+		}
 	}
 
 	@Override
