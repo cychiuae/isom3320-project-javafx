@@ -12,7 +12,7 @@ public class FireBall extends Bullet {
 		// TODO Auto-generated constructor stub
 		this.right = right;
 		dx = right ? 3.8 : -3.8;
-		damage = 5;
+		damage = 10;
 		
 		width = height = 60;
 		collisionHeight = collisionWidth = 40;

@@ -1,5 +1,8 @@
 package isom3320.project.game.scene;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,21 +27,19 @@ public class Level1 extends Scene {
 	private Map map;
 	private Background background;
 
-	private Score score;
+	private int score;
 	private Font font;
 
 	private int currentOption;
 	private String[] options;
-
-	private boolean inited;
-	private boolean stop;
 	
+	private boolean stop;
+
 	private Player player;
 	private ArrayList<Enemy> enemies;
-	private Coin coin;
+	private ArrayList<Coin> coins;
 
 	public Level1() {
-		inited = false;
 		stop = false;
 		init();
 	}
@@ -51,40 +52,55 @@ public class Level1 extends Scene {
 
 		background = new Background("background.png", 0.1);
 
-		score = new Score("Player", 0);
+		score = 0;
 		font = Font.font("Arial", FontWeight.NORMAL, 24);
-		
+
 		player = new Player(map);
-		player.setPosition(200, 100);
-		
+		player.setPosition(100, 100);
+
 		enemies = new ArrayList<Enemy>();
 		createEnemies();
+		coins = new ArrayList<Coin>();		
+		createCoins();
 		
-		coin = new Coin(map);
-		coin.setPosition(200, 60);
-
 		currentOption = 0;
 		options = new String[] {
 				"Resume",
 				"Quit"
 		};
-		
-		if(inited) {
-			ScoreSystem.getInstance().addScoreRecord(score);	
-		}
-		
-		inited = true;
 	}
-	
+
 	private void createEnemies() {
 		Enemy boss = new Boss(map);
 		boss.setPosition(6300, 350);
 		enemies.add(boss);
-		for(int i = 0; i < 15; i++) {
+		for(int i = 0; i < 1; i++) {
 			Random random = new Random();
 			Enemy mushroom = new Mushroom(map);
 			mushroom.setPosition((random.nextDouble() * 5400) + 100, 100);
 			enemies.add(mushroom);
+		}
+	}
+
+	private void createCoins() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("Resources/coin.txt"));
+			
+			String line = null;
+			while((line = br.readLine()) != null) {
+				String[] coords = line.split(",");
+				int x = Integer.parseInt(coords[0].trim());
+				int y = Integer.parseInt(coords[1].trim());
+				
+				Coin c = new Coin(map);
+				c.setPosition(x, y);
+				coins.add(c);
+			}
+			
+			br.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -94,30 +110,46 @@ public class Level1 extends Scene {
 		if(stop) {
 			return;
 		}
-		
+
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
+
 		player.update();
-		coin.update();
+
+		for(int i = 0; i < coins.size(); i++) {
+			Coin c = coins.get(i);
+			c.update();
+
+			if(player.gotCoin(c)) {
+				c.gotIt();
+			}
+
+			if(c.isGot()) {
+				score += 10;
+				coins.remove(i);
+				i--;
+			}
+		}
 
 		Enemy boss = enemies.get(0);
 
 		for(int i = 1; i < enemies.size(); i++) {
 			Enemy mushroom = enemies.get(i);
-			
+
 			mushroom.update();
-			
+
 			if(player.intersects(mushroom)) {
 				player.hit(mushroom.getDamage());
 			}
-			
+
 			player.checkHit(mushroom);
-			
+
 			if(mushroom.isDead()) {
+				score += 5;
 				enemies.remove(i);
 				i--;
 			}
 		}
-		
+
 		if(player.getXPosition() > 5850) {
 			boss.update();
 			if(player.intersects(boss)) {
@@ -126,8 +158,9 @@ public class Level1 extends Scene {
 			player.checkHit(boss);
 			if(boss.isDead()) {
 				enemies.remove(0);
+				score += 100;
 			}
-			
+
 			int[][] mapData = map.getMap();
 			for(int i = 5; i < 7; i++) {
 				mapData[i][94] = 3;
@@ -136,12 +169,12 @@ public class Level1 extends Scene {
 				mapData[i][95] = 22;
 				mapData[i][96] = 22;
 			}
-			
+
 			if((player.facingRight() && (player.getXPosition() < boss.getXPosition()) && !boss.facingRight()) ||
 					(!player.facingRight() && (player.getXPosition() > boss.getXPosition()) && boss.facingRight())) {
 				boss.startFiring();
 			}
-			
+
 			if(player.getYPosition() < 300) {
 				boss.startJumping();
 			}
@@ -154,23 +187,28 @@ public class Level1 extends Scene {
 		background.render(gc);
 		map.render(gc);
 		player.render(gc);
-		
-		coin.render(gc);
-		
+
 		for(Enemy e : enemies) {
 			e.render(gc);
 		}
-		
+
+		for(Coin c : coins) {
+			c.render(gc);
+		}
+
+		gc.setFill(Color.WHITE);
+		gc.fillText("Score: " + score, 500, 20);
+
 		if(stop) {
 			gc.setFill(Color.rgb(200, 200, 200, 0.5));
 			gc.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 			drawOption(gc);
 		}
 	}
-	
+
 	private void drawOption(GraphicsContext gc) {
 		gc.setFont(font);
-		
+
 		for(int i = 0; i < options.length; i++) {
 			if(i == currentOption) {
 				gc.setFill(Color.RED);
@@ -178,7 +216,7 @@ public class Level1 extends Scene {
 			else {
 				gc.setFill(Color.BLACK);
 			}
-			
+
 			gc.fillText(options[i], 290, 240 + i * 30);
 		}
 	}
@@ -189,7 +227,7 @@ public class Level1 extends Scene {
 		if(!stop) {
 			player.keyPressed(keyCode);
 		}
-		
+
 		if(stop) {
 			if(keyCode == KeyCode.UP) {
 				currentOption --;
@@ -197,14 +235,14 @@ public class Level1 extends Scene {
 					currentOption = options.length - 1;
 				}
 			}
-			
+
 			if(keyCode == KeyCode.DOWN) {
 				currentOption++;
 				if(currentOption == options.length) {
 					currentOption = 0;
 				}
 			}
-			
+
 			if(keyCode == KeyCode.ENTER) {
 				stop = !stop;
 				if(currentOption == options.length - 1) {
@@ -212,7 +250,7 @@ public class Level1 extends Scene {
 				}
 			}
 		}
-		
+
 		if(keyCode == KeyCode.ESCAPE) {
 			stop = !stop;
 		}

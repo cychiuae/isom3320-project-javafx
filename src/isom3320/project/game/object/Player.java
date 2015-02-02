@@ -101,6 +101,13 @@ public class Player extends Character {
 			
 		}
 	}
+	
+	public boolean gotCoin(Coin c) {
+		return xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
+			   xPosition + collisionWidth > c.getXPosition() &&
+			   yPosition < c.getYPosition() + tileSize &&
+			   yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht());
+	}
 
 	@Override
 	public void update() {

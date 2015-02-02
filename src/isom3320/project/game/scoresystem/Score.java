@@ -18,6 +18,10 @@ public class Score {
 		this.score += score;
 	}
 	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 	public String getPlayerName() {
 		return playerName;
 	}

@@ -10,11 +10,16 @@ import javafx.scene.input.KeyCode;
 
 public class Coin extends GameObject {
 
+	private boolean isGot;
+	private double collisionWidth, collisionHegiht;
+
 	public Coin(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
-		
 		width = height = 60;
+		collisionWidth = collisionHegiht = 30;
+		isGot = false;
+		
 		
 		Image spritesheet = MultimediaHelper.getImageByName("coin.png");
 		ArrayList<Image> sprite = new ArrayList<Image>();
@@ -27,6 +32,22 @@ public class Coin extends GameObject {
 		animation = new Animation();
 		animation.setFrames(sprite);
 		animation.setDelay(100);
+	}
+	
+	public void gotIt() {
+		isGot = true;
+	}
+	
+	public boolean isGot() {
+		return isGot;
+	}
+	
+	public double getCollisionWidth() {
+		return collisionWidth;
+	}
+
+	public double getCollisionHegiht() {
+		return collisionHegiht;
 	}
 
 	@Override

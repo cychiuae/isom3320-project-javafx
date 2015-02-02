@@ -31,8 +31,9 @@ public class Boss extends Enemy {
 		dx = 0.7;
 		facingRight = right = true;
 
-		hp = maxHp = 30;
+		hp = maxHp = 100;
 		firing = jumping = false;
+		damage = 5;
 
 		balls = new ArrayList<FireBomb>();
 
