@@ -7,11 +7,14 @@ import isom3320.project.game.Map.Tile;
 import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Boss extends Enemy {
 	private static final int WALKING = 0;
 	private static final int FIRING = 1;
 	private static final int JUMPING = 2;
+	private static Media BOMBSOUND = MultimediaHelper.getMusicByName("bomb.wav");
 
 	private ArrayList<FireBomb> balls;
 	private boolean firing;
@@ -60,6 +63,7 @@ public class Boss extends Enemy {
 		for(int i = 0; i < balls.size(); i++) {
 			Bullet fb = balls.get(i);
 			if(fb.intersects(p)) {
+				new MediaPlayer(BOMBSOUND).play();
 				p.hit(fb.getDamage());
 				fb.isHit();
 			}

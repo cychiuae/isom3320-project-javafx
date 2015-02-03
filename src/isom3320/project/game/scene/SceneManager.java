@@ -10,6 +10,9 @@ public class SceneManager {
 	public static final int MENU = 0;
 	public static final int LEVEL1 = 1;
 	public static final int HIGHESTSCORESCENE = 2;
+	public static final int HELPSCENE = 3;
+	public static final int GAMEOVERSCENE = 4;
+	public static final int WINSCENE = 5;
 	
 	private int currentLevel;
 	private ArrayList<Scene> scenes;
@@ -27,6 +30,9 @@ public class SceneManager {
 		scenes.add(new MenuScene());
 		scenes.add(new Level1());
 		scenes.add(new HighScoreScene());
+		scenes.add(new HelpScene());
+		scenes.add(new GameOverScene());
+		scenes.add(new WinScene());
 	}
 	
 	public void changeSceneLevel(int sceneLevel) {

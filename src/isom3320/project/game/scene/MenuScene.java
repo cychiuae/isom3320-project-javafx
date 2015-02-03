@@ -126,6 +126,9 @@ public class MenuScene extends Scene {
 			if(currentOption == 1) {
 				SceneManager.getInstance().changeSceneLevel(SceneManager.HIGHESTSCORESCENE);
 			}
+			if(currentOption == 2) {
+				SceneManager.getInstance().changeSceneLevel(SceneManager.HELPSCENE);
+			}
 		}
 	}
 

@@ -3,7 +3,6 @@ package isom3320.project.game.scene;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Random;
 
 import isom3320.project.game.Game;
 import isom3320.project.game.Map.Map;
@@ -14,8 +13,6 @@ import isom3320.project.game.object.EatPeopleFlower;
 import isom3320.project.game.object.Enemy;
 import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
-import isom3320.project.game.scoresystem.Score;
-import isom3320.project.game.scoresystem.ScoreSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -145,6 +142,9 @@ public class Level1 extends Scene {
 		map.setPosition(Game.WIDTH / 2 - player.getXPosition());
 
 		player.update();
+		if(player.isDead()) {
+			SceneManager.getInstance().changeSceneLevel(SceneManager.GAMEOVERSCENE);
+		}
 
 		for(int i = 0; i < coins.size(); i++) {
 			Coin c = coins.get(i);
@@ -196,6 +196,7 @@ public class Level1 extends Scene {
 			if(boss.isDead()) {
 				enemies.remove(0);
 				score += 100;
+				SceneManager.getInstance().changeSceneLevel(SceneManager.WINSCENE);
 			}
 
 			int[][] mapData = map.getMap();

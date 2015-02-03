@@ -86,7 +86,8 @@ public class HighScoreScene extends Scene {
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
-		if(keyCode == KeyCode.ENTER) {
+		switch (keyCode) {
+		default:
 			SceneManager.getInstance().changeSceneLevel(SceneManager.MENU);
 		}
 	}
