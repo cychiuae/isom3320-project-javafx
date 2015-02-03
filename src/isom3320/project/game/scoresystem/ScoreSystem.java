@@ -28,7 +28,7 @@ public class ScoreSystem {
 	
 
 	/**
-	 * Class constructor creating new ArrayList to store score data, and
+	 * Class constructor creates new ArrayList to store score data, and
 	 * run method to read score text file. 
 	 */
 	private ScoreSystem() {

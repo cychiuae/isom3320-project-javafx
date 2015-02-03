@@ -7,16 +7,34 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
+/**
+ * Class MenuScene dedicate for main menu scene. This scene is also the 
+ * initial scene when game is just started. Such scene awaits for any other 
+ * options chosen to direct to other scene, e.g. Play scene, Scoreboard scene,
+ * etc.
+ * 
+ * @author kevingok
+ *
+ */
 public class MenuScene extends Scene {
-
+	
+	/**Declare title name*/
 	private final String title;
+	/**Declare title font type*/
 	private Font titleFont;
+	/**Declare title font color*/
 	private Color titleColor;
+	/**Declare font type of other normal wordings */
 	private Font normalFont;
 	
+	/**Declare all options*/
 	private String[] options;
+	/**Declare current option chosen*/
 	private int currentOption;
+	
+	/**
+	 * Class constructor initiate all the background, title, options.
+	 */
 	public MenuScene() {
 		background = new Background("menubg.gif", 1);
 		background.setVector(-0.1, 0);
@@ -36,18 +54,23 @@ public class MenuScene extends Scene {
 		};
 	}
 	
+	/**??*/
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	/**Update background*/
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		background.update();
 	}
 
+	/**
+	 * Draw out the layout of menu scene
+	 */
 	@Override
 	public void render(GraphicsContext gc) {
 		// TODO Auto-generated method stub
@@ -75,6 +98,9 @@ public class MenuScene extends Scene {
 		}
 	}
 
+	/**
+	 * Handle keyboard pressed event
+	 */
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
@@ -103,6 +129,9 @@ public class MenuScene extends Scene {
 		}
 	}
 
+	/**
+	 * Handle keyboard released event
+	 */
 	@Override
 	public void keyReleased(KeyCode keyCode) {
 		// TODO Auto-generated method stub
