@@ -1,5 +1,3 @@
-/** Class Game is for game initialization. */
-
 package isom3320.project.game;
 
 import isom3320.project.game.multimedia.MultimediaHelper;
@@ -19,34 +17,39 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Class Game is for game initialization. 
+ * @author kevingok
+ * */
 @SuppressWarnings("deprecation")
 public class Game extends Application implements EventHandler<KeyEvent>{
  
-	/** Defines the title of the Stage.*/
+	/**Defines the title of the Stage.*/
 	public static final String GAMETITLE = "MARISOM3320";
-	/** Defines height of this stage*/
+	/**Defines height of this stage*/
 	public static final int WIDTH = 640;
-	/** Defines width of this stage*/
+	/**Defines width of this stage*/
 	public static final int HEIGHT = 480;
-	/** Defines ..?*/
+	/**Defines ..?*/
 	public static final int SCALE = 2;
-	/** Defines frame per second*/
+	/**Defines frame per second*/
 	public static final int FPS = 60;
 	
-	/** Defines customized class GameWindow*/
+	/**Defines customized class GameWindow*/
 	private GameWindow gameWindow;
-	/** Defines Timeline*/
+	/**Defines Timeline*/
 	private Timeline gameTimeLine;
-	/** Defines customized class SceneManager*/
+	/**Defines customized class SceneManager*/
 	private SceneManager sceneManager;
-	/** Defines MediaPlayer*/
+	/**Defines MediaPlayer*/
 	private MediaPlayer mediaPlayer;
 	
-	/** Defines playing indicator*/
+	/**Defines playing indicator*/
 	private boolean playing;
 	
-	/** Initialize scene, timeline, window, media files before main game loop
-	 * @throws Exception 		what exception???*/
+	/**
+	 * Initialize scene, timeline, window, media files before main game loop
+	 * @throws Exception 		If any exception occurred*/
 	@Override
 	public void init() throws Exception {
 		// TODO Auto-generated method stub
@@ -82,8 +85,10 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		
 	}
 
-	/** Runs the program
-	 * @throws Exception 		what exception???*/
+	/**
+	 * Runs the program with initialized stage.
+	 * @param stage			the stage to be started
+	 * @throws Exception 	If any exception occurred*/
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
@@ -103,14 +108,18 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		
 	}
 
-	/** stop(??)*/
+	/** Stop the execution of game.
+	 * @throws Exception 	If any exception occurred*/
 	@Override
 	public synchronized void stop() throws Exception {
 		// TODO Auto-generated method stub
 		super.stop();
 	}
 
-	/** main method*/
+	/**
+	 * The main method is only needed for the IDE with limited
+	 * JavaFX support. Not needed for running from the command line.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
