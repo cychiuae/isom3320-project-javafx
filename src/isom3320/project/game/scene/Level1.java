@@ -93,10 +93,22 @@ public class Level1 extends Scene {
 		Enemy boss = new Boss(map);
 		boss.setPosition(6300, 350);
 		enemies.add(boss);
-		for(int i = 0; i < 1; i++) {
-			Random random = new Random();
+		
+		int[][] enemiesCoord = new int[][] {
+				{300, 200},
+				{1530, 390},
+				{1955, 390},
+				{2930, 390},
+				{3290, 390},
+				{3570, 390},
+				{4400, 390},
+				{4600, 390},
+				{4800, 390}
+		};
+		
+		for(int i = 0; i < enemiesCoord.length; i++) {
 			Enemy mushroom = new Mushroom(map);
-			mushroom.setPosition((random.nextDouble() * 5400) + 100, 100);
+			mushroom.setPosition(enemiesCoord[i][0], enemiesCoord[i][1]);
 			enemies.add(mushroom);
 		}
 	}

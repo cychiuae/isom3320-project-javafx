@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
 public class Player extends Character {
@@ -19,7 +21,12 @@ public class Player extends Character {
 	private static final int FLYING = 4;
 	private static final int FIRING = 5;
 	private static final int ATTACKING = 6;
-
+	
+	private static Media JUMPINGSOUND = MultimediaHelper.getMusicByName("jump.wav");
+	private static Media COINSOUND = MultimediaHelper.getMusicByName("coin.wav");
+	private static Media BOMBSOUND = MultimediaHelper.getMusicByName("bomb.wav");
+	private static Media FIRESOUND = MultimediaHelper.getMusicByName("fire.wav");
+	
 	private ArrayList<FireBall> balls;
 	private int numOfFire;
 	private int maxFire;
@@ -82,7 +89,7 @@ public class Player extends Character {
 
 			if(fb.intersects(e)) {
 				e.hit(fb.getDamage());
-
+				new MediaPlayer(BOMBSOUND).play();
 				fb.isHit();
 			}
 		}
@@ -103,10 +110,16 @@ public class Player extends Character {
 	}
 
 	public boolean gotCoin(Coin c) {
-		return xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
-				xPosition + collisionWidth > c.getXPosition() &&
-				yPosition < c.getYPosition() + tileSize &&
-				yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht());
+		if(xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
+			xPosition + collisionWidth > c.getXPosition() &&
+			yPosition < c.getYPosition() + tileSize &&
+			yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht())) 
+		{
+			MediaPlayer p = new MediaPlayer(COINSOUND);
+			p.play();
+			return true;
+		}
+		return false;
 	}
 
 	public void checkAteByFlower(EatPeopleFlower f) {
@@ -230,6 +243,7 @@ public class Player extends Character {
 
 		if(firing && currentAction != FIRING) {
 			if(numOfFire > 0) {
+				new MediaPlayer(FIRESOUND).play();
 				numOfFire--;
 				FireBall fb = new FireBall(map, facingRight);
 				if(facingRight) {
@@ -293,6 +307,9 @@ public class Player extends Character {
 		}
 		else if(dy < 0) {
 			if(currentAction != JUMPING) {
+				MediaPlayer p = new MediaPlayer(JUMPINGSOUND);
+				p.setVolume(0.25);
+				p.play();
 				currentAction = JUMPING;
 				animation.setFrames(sprites.get(JUMPING));
 				animation.setDelay(30);
