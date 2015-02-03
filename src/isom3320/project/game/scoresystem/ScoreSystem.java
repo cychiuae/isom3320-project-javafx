@@ -9,12 +9,37 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Class ScoreSystem aims at creating, reading and writing score history file. 
+ * It also include sorting of all score records and retrieving the best three 
+ * scores for displaying on the screen.
+ * 
+ * @author kevingok
+ *
+ */
 public class ScoreSystem {
+	/**Define a instance of ScoreSystem class.*/
 	private static ScoreSystem instance;
+	/**Define filename of score history text file.*/
 	private static final String scoreFile = "scores.txt";
 	
+	/**Define scores ArrayList.*/
 	private ArrayList<Score> scores;
 	
+
+	/**
+	 * Class constructor creating new ArrayList to store score data, and
+	 * run method to read score text file. 
+	 */
+	private ScoreSystem() {
+		scores = new ArrayList<Score>();
+		readScoreFile();
+	}
+	
+	/**
+	 * Retrieve an instance of ScoreSytem class, otherwise create a new one.
+	 * @return		Created or newly created ScoreSystem instance
+	 */
 	public static ScoreSystem getInstance() {
 		if(instance == null) {
 			instance = new ScoreSystem();
@@ -22,11 +47,9 @@ public class ScoreSystem {
 		return instance;
 	}
 	
-	private ScoreSystem() {
-		scores = new ArrayList<Score>();
-		readScoreFile();
-	}
-	
+	/**
+	 * Read score history data text file and store into ArrayList.
+	 */
 	private void readScoreFile() {
 		try {
 			File f = new File(scoreFile);
@@ -48,6 +71,9 @@ public class ScoreSystem {
 		}
 	}
 	
+	/**
+	 * Save history data text file.
+	 */
 	public void saveScoreFile() {
 		try {
 			PrintWriter writer = new PrintWriter(scoreFile, "UTF-8");
@@ -66,10 +92,17 @@ public class ScoreSystem {
 		
 	}
 	
+	/**
+	 * Add new score record into text file.
+	 * @param s		New score after current game play finished.
+	 */
 	public void addScoreRecord(Score s) {
 		scores.add(s);
 	}
 	
+	/**
+	 * Sort all scores in text file.
+	 */
 	private void sortScores() {
 		scores.sort(new Comparator<Score>() {
 			@Override
@@ -80,6 +113,10 @@ public class ScoreSystem {
 		});
 	}
 	
+	/**
+	 * Retrieve the top highest 3 scores array 
+	 * @return		Top 3 highest scores as an array
+	 */
 	public Score[] getTopThreeScore() {
 		ArrayList<Score> result = new ArrayList<Score>();
 		sortScores();

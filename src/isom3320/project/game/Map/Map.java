@@ -9,21 +9,41 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
+/**
+ * Class Map is for generating the whole map of the level from Resource.
+ * @author kevingok
+ */
 public class Map {
+	/**Defines position of x.*/
 	private double xPosition;
+	/**Defines minimum and maximum of x.*/
 	private double xMin, xMax;
 	
+	/**Defines 2D array storing row and column of ..*/
 	private int[][] map;
+	/**Defines tiles array for .*/
 	private Tile[] tiles;
+	/**Defines size of tile.*/
 	private double tileSize;
 	
+	/**Defines total row number of map image.*/
 	private int numRows;
+	/**Defines total column number of map image.*/
 	private int numCols;
+	/**Defines row offset number of map image.*/
 	private int rowOffset;
+	/**Defines column number of map image.*/
 	private int colOffset;
+	/**Defines row number of map image to be drawn.*/
 	private int numRowsToDraw;
+	/**Defines column number of map image to be drawn.*/
 	private int numColsToDraw;
 	
+	/**
+	 * Class constructor triggering loadMap and loadTile methods to generate 
+	 * complete map object.
+	 * @param mapName			Sets filename of map
+	 * @param tileSize			Sets size of the tile*/
 	public Map(String mapName, double tileSize) {
 		this.tileSize = tileSize;
 		numRowsToDraw = (int)(Game.HEIGHT / tileSize + 2);
@@ -33,6 +53,11 @@ public class Map {
 		loadTiles();
 	}
 	
+	/**
+	 * Load the map index file from Resource folder and store total number of
+	 * column and row of indices into 2D array.
+	 * @param mapName			Sets filename of map
+	 * @throws Exception 		If input exception occurred*/
 	public void loadMap(String mapName) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(mapName));
@@ -61,6 +86,9 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * Load the map image file from Resource folder. Method will define whether 
+	 * each tile is a block or able to be passed through*/
 	public void loadTiles() {
 		Image tileSet = MultimediaHelper.getImageByName("grasstileset.gif");
 		int numOfCol = (int) (tileSet.getWidth() / tileSize);
@@ -75,6 +103,9 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * Set position of x.
+	 * @param x			Sets position*/
 	public void setPosition(double x) {
 		xPosition = x;
 		
@@ -88,22 +119,44 @@ public class Map {
 		colOffset = (int) (-xPosition / tileSize);
 	}
 	
+	/**
+	 * Get position of x.
+	 * @return 			Position of x
+	 */
 	public double getX() {
 		return xPosition;
 	}
 	
+	/**
+	 * Get size of each tile.
+	 * @return 			size of tile
+	 */
 	public double getTileSize() {
 		return tileSize;
 	}
 	
+	/**
+	 * Get type of tile.
+	 * @param row 		Total row number of map indices
+	 * @param col		Total column number of map indices
+	 * @return			type integer
+	 */
 	public int getTileType(int row, int col) {
 		return tiles[map[row][col]].getType();
 	}
 	
+	/**
+	 * Get map array.
+	 * @return			2D array of map
+	 */
 	public int[][] getMap() {
 		return map;
 	}
 	
+	/**
+	 * Draw map from tile image.
+	 * @param gc		Image of entire tile
+	 */
 	public void render(GraphicsContext gc) {
 		for(int row = rowOffset; row < numRowsToDraw + rowOffset && row < numRows; row++) {
 			for(int col = colOffset; col < numColsToDraw + colOffset && col < numCols; col++) {
