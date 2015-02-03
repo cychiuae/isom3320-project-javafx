@@ -26,8 +26,6 @@ public class GameOverScene extends Scene {
 		
 		color = Color.YELLOW;
 		font = Font.font("Lucida Console", FontWeight.BOLD, 12);
-		
-		System.out.println(ScoreSystem.getInstance().toString());
 	}
 	
 	@Override
