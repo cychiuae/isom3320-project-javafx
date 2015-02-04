@@ -113,6 +113,10 @@ public class ScoreSystem {
 		});
 	}
 	
+	/**
+	 * Return latest score of the game
+	 * @return		Latest score of game
+	 */
 	public int getLatestScore() {
 		if(scores.size() > 0) {
 			return scores.get(scores.size() - 1).getScore();

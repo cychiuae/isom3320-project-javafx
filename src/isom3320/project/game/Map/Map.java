@@ -21,7 +21,7 @@ public class Map {
 	
 	/**Defines 2D array storing row and column of ..*/
 	private int[][] map;
-	/**Defines tiles array for .*/
+	/**Defines tiles array for storing all tile indices.*/
 	private Tile[] tiles;
 	/**Defines size of tile.*/
 	private double tileSize;
@@ -52,7 +52,7 @@ public class Map {
 		loadMap(mapName);
 		loadTiles();
 	}
-	
+
 	/**
 	 * Load the map index file from Resource folder and store total number of
 	 * column and row of indices into 2D array.
