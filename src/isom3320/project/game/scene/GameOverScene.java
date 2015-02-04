@@ -1,10 +1,13 @@
 package isom3320.project.game.scene;
 
+import isom3320.project.game.multimedia.MultimediaHelper;
 import isom3320.project.game.multimedia.graphics.Background;
 import isom3320.project.game.scoresystem.Score;
 import isom3320.project.game.scoresystem.ScoreSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -18,6 +21,8 @@ public class GameOverScene extends Scene {
 	private Font font;
 
 	private int score;
+	
+	private static Media GAMEOVERSOUND = MultimediaHelper.getMusicByName("gameover.wav");
 
 	public GameOverScene() {
 		// TODO Auto-generated constructor stub
@@ -32,6 +37,7 @@ public class GameOverScene extends Scene {
 	public void init() {
 		// TODO Auto-generated method stub
 		score = ScoreSystem.getInstance().getLatestScore();
+		new MediaPlayer(GAMEOVERSOUND).play();
 	}
 
 	@Override

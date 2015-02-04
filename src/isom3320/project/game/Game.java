@@ -59,6 +59,12 @@ public class Game extends Application implements EventHandler<KeyEvent>{
 		sceneManager = SceneManager.getInstance();
 		
 		mediaPlayer = new MediaPlayer(MultimediaHelper.getMusicByName("bg.mp3"));
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
+			@Override
+			public void run() {
+				mediaPlayer.seek(Duration.ZERO);
+			}
+		});
 		
 		Duration secondPerFrame = Duration.millis(1000 / (float) FPS);
 		KeyFrame keyFrame = new KeyFrame(secondPerFrame, new EventHandler<ActionEvent>() {

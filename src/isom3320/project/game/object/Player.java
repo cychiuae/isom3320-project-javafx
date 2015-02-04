@@ -66,8 +66,8 @@ public class Player extends Character {
 
 		sprites = new ArrayList<ArrayList<Image>>();
 
-		Image spritesheet = MultimediaHelper.getImageByName("playersprites.gif");
-		int[] numFrames = new int[] {2, 8, 1, 2, 4, 2, 5};
+		Image spritesheet = MultimediaHelper.getImageByName("playersprites2.gif");
+		int[] numFrames = new int[] {1, 2, 1, 1, 4, 2, 5};
 		for(int i = 0; i < 7; i++) {
 			ArrayList<Image> frames = new ArrayList<Image>();
 
@@ -356,11 +356,11 @@ public class Player extends Character {
 			if(currentAction != ATTACKING) {
 				currentAction = ATTACKING;
 				animation.setFrames(sprites.get(ATTACKING));
-				animation.setDelay(50);
+				animation.setDelay(60);
 				width = 120;
-				if(animation.playedOnce()) {
-					attack = false;
-				}
+			}
+			if(animation.playedOnce()) {
+				attack = false;
 			}
 		}
 		else if(left || right) {
@@ -448,9 +448,6 @@ public class Player extends Character {
 		}
 		if(keyCode == KeyCode.SPACE) {
 			flying = false;
-		}
-		if(keyCode == KeyCode.D) {
-			attack = false;
 		}
 	}
 }

@@ -244,6 +244,7 @@ public class Level1 extends Scene {
 			f.render(gc);
 		}
 
+		gc.setFont(font);
 		gc.setFill(Color.WHITE);
 		gc.fillText("Score: " + score, 500, 20);
 

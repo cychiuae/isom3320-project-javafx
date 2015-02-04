@@ -7,12 +7,15 @@ import isom3320.project.game.Map.Tile;
 import isom3320.project.game.multimedia.MultimediaHelper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 
 public class Mushroom extends Enemy {
+	
+	private Font font;
 
 	public Mushroom(Map map) {
 		super(map);
-
+		font = Font.font("Arial", 18);
 		height = width = 60;
 		collisionWidth = 50;
 		collisionHeight = 40;
@@ -120,9 +123,7 @@ public class Mushroom extends Enemy {
 		animation.update();
 	}
 
-	@Override
-	public void render(GraphicsContext gc) {
-		// TODO Auto-generated method stub
+	private void drawBody(GraphicsContext gc) {
 		if(isHit) {
 			if((System.nanoTime() - hitTimer) / 100000000 % 2 == 0) {
 				return;
@@ -134,6 +135,14 @@ public class Mushroom extends Enemy {
 		else {
 			gc.drawImage(animation.getImage(), xPosition + map.getX() + width / 2 , yPosition - height / 2, -width, height);
 		}
+	}
+	
+	@Override
+	public void render(GraphicsContext gc) {
+		// TODO Auto-generated method stub
+		drawBody(gc);
+		gc.setFont(font);
+		gc.fillText(hp + "/" + maxHp, xPosition + map.getX() - 20, yPosition - 20);
 	}
 
 	@Override
