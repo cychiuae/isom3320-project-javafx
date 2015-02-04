@@ -409,9 +409,6 @@ public class Player extends Character {
 		gc.setFill(Color.WHITE);
 		gc.fillText("FireBall: " + numOfFire + "/" + maxFire, 10, 20);
 		gc.fillText("HP: " + hp + "/" + maxHp, 10, 50);
-		gc.fillText("x: " + xPosition, 10, 100);
-		gc.fillText("y: " + yPosition, 10, 130);
-
 	}
 
 	@Override
