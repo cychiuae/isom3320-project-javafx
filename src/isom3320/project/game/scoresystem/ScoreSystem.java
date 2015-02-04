@@ -113,6 +113,13 @@ public class ScoreSystem {
 		});
 	}
 	
+	public int getLatestScore() {
+		if(scores.size() > 0) {
+			return scores.get(scores.size() - 1).getScore();
+		}
+		return 0;
+	}
+	
 	/**
 	 * Retrieve the top highest 3 scores array 
 	 * @return		Top 3 highest scores as an array

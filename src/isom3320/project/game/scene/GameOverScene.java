@@ -31,6 +31,7 @@ public class GameOverScene extends Scene {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		score = ScoreSystem.getInstance().getLatestScore();
 	}
 
 	@Override

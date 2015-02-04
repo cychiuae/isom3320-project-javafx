@@ -13,6 +13,8 @@ import isom3320.project.game.object.EatPeopleFlower;
 import isom3320.project.game.object.Enemy;
 import isom3320.project.game.object.Mushroom;
 import isom3320.project.game.object.Player;
+import isom3320.project.game.scoresystem.Score;
+import isom3320.project.game.scoresystem.ScoreSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -143,6 +145,8 @@ public class Level1 extends Scene {
 
 		player.update();
 		if(player.isDead()) {
+			Score finalScore = new Score("Player", score);
+			ScoreSystem.getInstance().addScoreRecord(finalScore);
 			SceneManager.getInstance().changeSceneLevel(SceneManager.GAMEOVERSCENE);
 		}
 
@@ -196,6 +200,8 @@ public class Level1 extends Scene {
 			if(boss.isDead()) {
 				enemies.remove(0);
 				score += 100;
+				Score finalScore = new Score("Player", score);
+				ScoreSystem.getInstance().addScoreRecord(finalScore);
 				SceneManager.getInstance().changeSceneLevel(SceneManager.WINSCENE);
 			}
 

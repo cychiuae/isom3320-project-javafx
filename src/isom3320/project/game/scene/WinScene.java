@@ -32,12 +32,12 @@ public class WinScene extends Scene {
 		color = Color.YELLOW;
 		font = Font.font("Lucida Console", FontWeight.BOLD, 12);
 		mediaPlayer = new MediaPlayer(MultimediaHelper.getMusicByName("win.mp3"));
-		score = 0;
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		score = ScoreSystem.getInstance().getLatestScore();
 	}
 
 	@Override
