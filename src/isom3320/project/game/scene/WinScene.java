@@ -20,10 +20,14 @@ public class WinScene extends Scene {
 	/**Declare Font of wordings*/
 	private Font font;
 
+	/**Declare MediaPlayer*/
 	private MediaPlayer mediaPlayer;
 
+	/**Declare score*/
 	private int score;
 
+	/**Class constructor declares background image, font details of
+	 * final score description*/ 
 	public WinScene() {
 		// TODO Auto-generated constructor stub
 		background = new Background("winscene.gif", 1);
@@ -34,12 +38,16 @@ public class WinScene extends Scene {
 		mediaPlayer = new MediaPlayer(MultimediaHelper.getMusicByName("win.mp3"));
 	}
 
+	/**Get latest score after player win the game.*/
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		score = ScoreSystem.getInstance().getLatestScore();
 	}
 
+	/**
+	 * Update background and play music continuously.
+	 */
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
@@ -47,6 +55,9 @@ public class WinScene extends Scene {
 		mediaPlayer.play();
 	}
 
+	/**
+	 * Draw background image and show score detail.
+	 */
 	@Override
 	public void render(GraphicsContext gc) {
 		// TODO Auto-generated method stub
@@ -58,6 +69,10 @@ public class WinScene extends Scene {
 		gc.fillText("You seems lucky. Isn't?", 6, 370);
 	}
 
+	/**
+	 * Handle key pressed event. By pressing ENTER, user will prompted back
+	 * to menu scene.
+	 */
 	@Override
 	public void keyPressed(KeyCode keyCode) {
 		// TODO Auto-generated method stub
