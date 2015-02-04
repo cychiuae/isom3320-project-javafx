@@ -27,6 +27,7 @@ public class Player extends Character {
 	private static Media COINSOUND = MultimediaHelper.getMusicByName("coin.wav");
 	private static Media BOMBSOUND = MultimediaHelper.getMusicByName("bomb.wav");
 	private static Media FIRESOUND = MultimediaHelper.getMusicByName("fire.wav");
+	private static Media HITSOUND = MultimediaHelper.getMusicByName("mario_ooh.wav");
 
 	private ArrayList<FireBall> balls;
 	private int numOfFire;
@@ -123,6 +124,25 @@ public class Player extends Character {
 		}
 		return false;
 	}
+	
+	@Override
+	public void hit(int damage) {
+		if(isDead || isHit) {
+			return;
+		}
+		
+		hp -= damage;
+		new MediaPlayer(HITSOUND).play();
+		if(hp < 0) {
+			hp = 0;
+		}
+		if(hp == 0) {
+			isDead = true;
+		}
+		
+		isHit = true;
+		hitTimer = System.nanoTime();
+	}
 
 	public boolean gotCoin(Coin c) {
 		if(xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
@@ -144,6 +164,7 @@ public class Player extends Character {
 				yPosition < f.getYPosition() + tileSize &&
 				yPosition + collisionHeight > f.getYPosition() + (tileSize - f.getCollisionHeight())) 
 		{
+
 			hit(f.getDamage());
 		}
 	}
