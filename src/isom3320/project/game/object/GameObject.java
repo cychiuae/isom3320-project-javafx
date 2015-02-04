@@ -39,6 +39,14 @@ public abstract class GameObject {
 		return r.intersects(gameObject.getXPosition(), gameObject.getYPosition(), gameObject.getWidth(), gameObject.getHeight());
 	}
 	
+	public double getCollisionWidth() {
+		return collisionWidth;
+	}
+
+	public double getCollisionHeight() {
+		return collisionHeight;
+	}
+
 	public double getXPosition() {
 		return xPosition;
 	}

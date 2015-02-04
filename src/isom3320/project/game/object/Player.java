@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Player extends Character {
 	private static final int IDLE = 0;
@@ -21,12 +22,12 @@ public class Player extends Character {
 	private static final int FLYING = 4;
 	private static final int FIRING = 5;
 	private static final int ATTACKING = 6;
-	
+
 	private static Media JUMPINGSOUND = MultimediaHelper.getMusicByName("jump.wav");
 	private static Media COINSOUND = MultimediaHelper.getMusicByName("coin.wav");
 	private static Media BOMBSOUND = MultimediaHelper.getMusicByName("bomb.wav");
 	private static Media FIRESOUND = MultimediaHelper.getMusicByName("fire.wav");
-	
+
 	private ArrayList<FireBall> balls;
 	private int numOfFire;
 	private int maxFire;
@@ -40,9 +41,12 @@ public class Player extends Character {
 
 	private ArrayList<ArrayList<Image>> sprites;
 
+	private Font font;
+	
 	public Player(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
+		font = Font.font("Arial", 24);
 		width = 60;
 		height = 60;
 		collisionHeight = 60;
@@ -109,11 +113,22 @@ public class Player extends Character {
 		}
 	}
 
+	public boolean intersects(Enemy o) {
+		if(xPosition + 20 < o.getXPosition() + o.getCollisionWidth() &&
+				xPosition + collisionWidth > o.getXPosition() &&
+				yPosition < o.getYPosition() + tileSize &&
+				yPosition + collisionHeight > o.getYPosition() + (tileSize - o.getCollisionHeight())) 
+		{
+			return true;
+		}
+		return false;
+	}
+
 	public boolean gotCoin(Coin c) {
 		if(xPosition + 20 < c.getXPosition() + c.getCollisionWidth() &&
-			xPosition + collisionWidth > c.getXPosition() &&
-			yPosition < c.getYPosition() + tileSize &&
-			yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht())) 
+				xPosition + collisionWidth > c.getXPosition() &&
+				yPosition < c.getYPosition() + tileSize &&
+				yPosition + collisionHeight > c.getYPosition() + (tileSize - c.getCollisionHegiht())) 
 		{
 			MediaPlayer p = new MediaPlayer(COINSOUND);
 			p.play();
@@ -125,9 +140,9 @@ public class Player extends Character {
 	public void checkAteByFlower(EatPeopleFlower f) {
 		// TODO Auto-generated method stub
 		if(xPosition + 20 < f.getXPosition() + f.getCollisionWidth() &&
-			xPosition + collisionWidth > f.getXPosition() &&
-			yPosition < f.getYPosition() + tileSize &&
-			yPosition + collisionHeight > f.getYPosition() + (tileSize - f.getCollisionHeight())) 
+				xPosition + collisionWidth > f.getXPosition() &&
+				yPosition < f.getYPosition() + tileSize &&
+				yPosition + collisionHeight > f.getYPosition() + (tileSize - f.getCollisionHeight())) 
 		{
 			hit(f.getDamage());
 		}
@@ -369,6 +384,7 @@ public class Player extends Character {
 			balls.get(i).render(gc);
 		}
 
+		gc.setFont(font);
 		gc.setFill(Color.WHITE);
 		gc.fillText("FireBall: " + numOfFire + "/" + maxFire, 10, 20);
 		gc.fillText("HP: " + hp + "/" + maxHp, 10, 50);

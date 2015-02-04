@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 
 public class Boss extends Enemy {
 	private static final int WALKING = 0;
@@ -22,10 +23,14 @@ public class Boss extends Enemy {
 	private boolean jumping;
 
 	private ArrayList<ArrayList<Image>> sprites;
+	
+	private Font font;
 
 	public Boss(Map map) {
 		super(map);
 		// TODO Auto-generated constructor stub
+		font = Font.font("Arial", 12);
+		
 		width = 64;
 		height = 80;
 		collisionHeight = 80;
@@ -73,6 +78,7 @@ public class Boss extends Enemy {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		
 		if(left || right) {
 			facingRight = right;
 			dx = right ? 1.7 : -1.7;
@@ -227,10 +233,8 @@ public class Boss extends Enemy {
 			}
 		}
 	}
-
-	@Override
-	public void render(GraphicsContext gc) {
-		// TODO Auto-generated method stub		
+	
+	private void drawBody(GraphicsContext gc) {
 		if(isHit) {
 			if((System.nanoTime() - hitTimer) / 100000000 % 2 == 0) {
 				return;
@@ -241,7 +245,17 @@ public class Boss extends Enemy {
 		}
 		else {
 			gc.drawImage(animation.getImage(), xPosition + map.getX() + width / 2 , yPosition - height / 2, -width, height);
-		}
+		}	
+	}
+
+	@Override
+	public void render(GraphicsContext gc) {
+		// TODO Auto-generated method stub	
+		gc.setFont(font);
+		gc.fillText(hp + "/" + maxHp, xPosition + map.getX() - width / 2, yPosition - 40);
+		
+		drawBody(gc);
+		
 		for(int i = 0; i < balls.size(); i++) {
 			balls.get(i).render(gc);
 		}
